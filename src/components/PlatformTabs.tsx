@@ -41,11 +41,12 @@ export function PlatformTabs() {
                   key={tab.id}
                   type="button"
                   onClick={() => setActive(tab.id)}
-                  className={`relative shrink-0 rounded-[10px] px-3.5 py-2.5 text-left text-[14px] font-medium transition-all ${
+                  className={`relative shrink-0 rounded-[10px] px-3.5 py-2.5 text-left text-[14px] font-medium transition-all duration-200 ${
                     on
                       ? "bg-[#0a0a0a] text-white shadow-sm"
                       : "text-[#525252] hover:bg-[#f4f4f5] hover:text-[#0a0a0a]"
                   }`}
+                  aria-pressed={on}
                 >
                   {tab.label}
                 </button>

@@ -14,15 +14,68 @@ const interDisplay = Inter_Tight({
   display: "swap",
 });
 
+const siteUrl = "https://agent-crm.lizliz.xyz";
+const title = "Agent CRM — The CRM for agentic revenue";
+const description =
+  "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.";
+
 export const metadata: Metadata = {
-  title: "Agent CRM — The CRM for agentic revenue",
-  description:
-    "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.",
+  metadataBase: new URL(siteUrl),
+  title: {
+    default: title,
+    template: "%s · Agent CRM",
+  },
+  description,
+  applicationName: "Agent CRM",
+  keywords: [
+    "CRM",
+    "agentic CRM",
+    "revenue agents",
+    "pipeline",
+    "sales automation",
+    "Agent CRM",
+  ],
+  authors: [{ name: "Agent CRM" }],
+  creator: "Agent CRM",
+  publisher: "Agent CRM",
+  icons: {
+    icon: [
+      { url: "/icon.svg", type: "image/svg+xml" },
+      { url: "/favicon.ico", sizes: "any" },
+      { url: "/favicon-32.png", sizes: "32x32", type: "image/png" },
+      { url: "/favicon-16.png", sizes: "16x16", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
+    shortcut: ["/favicon.ico"],
+  },
   openGraph: {
-    title: "Agent CRM — The CRM for agentic revenue",
-    description:
-      "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.",
+    title,
+    description,
+    url: siteUrl,
+    siteName: "Agent CRM",
+    locale: "en_US",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Agent CRM — The CRM for agentic revenue",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  alternates: {
+    canonical: siteUrl,
   },
 };
 

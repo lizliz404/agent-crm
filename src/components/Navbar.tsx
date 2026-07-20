@@ -3,29 +3,6 @@
 import { useEffect, useState } from "react";
 import { LogoMark } from "@/components/ui";
 
-export function PromoBanner() {
-  const [open, setOpen] = useState(true);
-  if (!open) return null;
-  return (
-    <div className="relative z-[60] bg-[#0a0a0a] text-[#fafafa]">
-      <div className="container-page flex h-10 items-center justify-center gap-2 text-[13px]">
-        <a href="#platform" className="inline-flex items-center gap-1.5 hover:opacity-90">
-          Orchestrate revenue agents with the new Workflows
-          <span aria-hidden>→</span>
-        </a>
-        <button
-          type="button"
-          aria-label="Dismiss banner"
-          onClick={() => setOpen(false)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 rounded-md p-1 text-white/60 hover:bg-white/10 hover:text-white"
-        >
-          ×
-        </button>
-      </div>
-    </div>
-  );
-}
-
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);

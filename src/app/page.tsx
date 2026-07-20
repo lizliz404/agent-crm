@@ -1,4 +1,4 @@
-import { PromoBanner, Navbar } from "@/components/Navbar";
+import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
 import { LogoCloud } from "@/components/LogoCloud";
 import { PlatformTabs } from "@/components/PlatformTabs";
@@ -13,7 +13,6 @@ import { Footer } from "@/components/Footer";
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden">
-      <PromoBanner />
       <Navbar />
       <Hero />
       <LogoCloud />

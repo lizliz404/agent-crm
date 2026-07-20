@@ -15,7 +15,7 @@ export function DarkFeature() {
         >
           <div>
             <span className="mb-5 inline-flex items-center gap-2 rounded-full bg-white/10 px-3 py-1 text-[12.5px] font-medium text-white/80 ring-1 ring-white/10">
-              <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" />
+              <span className="live-dot bg-emerald-400" />
               Self-building
             </span>
             <h2 className="text-section mb-6 text-white">
