@@ -15,7 +15,7 @@ export function FinalCTA() {
   };
 
   return (
-    <section className="border-t border-[#ececec]">
+    <section id="pricing" className="border-t border-[#ececec]">
       <div className="container-page py-16 md:py-20">
         <motion.div
           {...sectionInView}

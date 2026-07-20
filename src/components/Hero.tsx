@@ -10,7 +10,7 @@ import { HeroCollage } from "@/components/HeroCollage";
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden pb-10 pt-16 md:pt-20">
+    <section className="relative overflow-hidden pb-10 pt-20 md:pt-24">
       <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.9),transparent_60%)]" />
       <div className="container-page">
         <div className="mx-auto max-w-[720px] text-center">
