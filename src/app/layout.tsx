@@ -15,8 +15,8 @@ const interDisplay = Inter_Tight({
 });
 
 export const metadata: Metadata = {
-  title: "Attio Replica — The CRM for agentic revenue",
-  description: "A replica of attio.com landing page for skill extraction",
+  title: "Agent CRM — The CRM for agentic revenue",
+  description: "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.",
 };
 
 export default function RootLayout({

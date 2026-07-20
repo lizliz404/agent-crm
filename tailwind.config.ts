@@ -13,7 +13,7 @@ const config: Config = {
         body: ["var(--font-inter)", "system-ui", "sans-serif"],
       },
       colors: {
-        attio: {
+        brand: {
           black: "#0a0a0a",
           white: "#fafafa",
           gray: {

@@ -75,7 +75,7 @@ export default function Home() {
     { date: "June 29, 2026", title: "What's new in Workflows", desc: "More of the work, off your plate." },
     { date: "June 29, 2026", title: "New activity timeline", desc: "Eliminate noise in your records." },
     { date: "June 29, 2026", title: "Calls on mobile", desc: "Call recordings are now on mobile." },
-    { date: "June 29, 2026", title: "More App Store updates", desc: "Connect Attio to more of the tools you use every day." },
+    { date: "June 29, 2026", title: "More App Store updates", desc: "Connect Agent CRM to more of the tools you use every day." },
   ];
 
   return (
@@ -84,7 +84,7 @@ export default function Home() {
       <nav className="fixed top-0 left-0 right-0 z-50 bg-[#fafafa]/80 backdrop-blur-md border-b border-[#e5e5e5]">
         <div className="max-w-[1200px] mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-8">
-            <a href="#" className="text-[18px] font-semibold tracking-tight">Attio</a>
+            <a href="#" className="text-[18px] font-semibold tracking-tight">Agent CRM</a>
             <div className="hidden md:flex items-center gap-6">
               <button className="text-[14px] font-medium text-[#525252] hover:text-[#0a0a0a] transition-colors">Platform</button>
               <button className="text-[14px] font-medium text-[#525252] hover:text-[#0a0a0a] transition-colors">Resources</button>
@@ -125,7 +125,7 @@ export default function Home() {
               variants={fadeInUp}
               className="text-body max-w-[420px] mx-auto mb-8"
             >
-              Attio is the CRM that builds pipeline, advances deals, and grows accounts around the clock.
+              Agent CRM is the CRM that builds pipeline, advances deals, and grows accounts around the clock.
             </motion.p>
             
             <motion.div
@@ -162,7 +162,7 @@ export default function Home() {
                   <div className="text-[13px] text-[#737373]">10:24</div>
                 </div>
                 <div className="ml-auto flex items-center gap-2">
-                  <span className="text-[12px] px-2 py-1 bg-[#f5f5f5] rounded-md text-[#525252]">Attio APP</span>
+                  <span className="text-[12px] px-2 py-1 bg-[#f5f5f5] rounded-md text-[#525252]">Agent CRM APP</span>
                   <span className="text-[13px] text-[#737373]">10:24</span>
                 </div>
               </div>
@@ -307,7 +307,7 @@ export default function Home() {
               <h2 className="text-section text-[#fafafa] mb-6">
                 Live from day one.
                 <br />
-                <span className="text-[#a3a3a3]">Connect your inbox and calendar. Attio learns your business and builds itself around it, before your first agent even gets to work.</span>
+                <span className="text-[#a3a3a3]">Connect your inbox and calendar. Agent CRM learns your business and builds itself around it, before your first agent even gets to work.</span>
               </h2>
               <a href="#" className="btn-primary bg-[#fafafa] text-[#0a0a0a] border-[#fafafa] hover:bg-[#e5e5e5]">Start for free</a>
             </div>
@@ -396,7 +396,7 @@ export default function Home() {
             </div>
             <div className="p-6 rounded-[12px] border border-[#e5e5e5] bg-white">
               <h3 className="text-label mb-3">SDK. API. MCP.</h3>
-              <p className="text-body text-[14px]">Build anything on Attio</p>
+              <p className="text-body text-[14px]">Build anything on Agent CRM</p>
             </div>
           </motion.div>
         </div>
@@ -509,7 +509,7 @@ export default function Home() {
             transition={{ duration: 0.6 }}
           >
             <h2 className="text-hero mb-8">
-              Agentic revenue runs on Attio.
+              Agentic revenue runs on Agent CRM.
             </h2>
             <div className="flex items-center justify-center gap-3">
               <a href="#" className="btn-primary">Talk to sales</a>
@@ -524,7 +524,7 @@ export default function Home() {
         <div className="max-w-[1200px] mx-auto">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <div className="text-[18px] font-semibold mb-4">Attio</div>
+              <div className="text-[18px] font-semibold mb-4">Agent CRM</div>
             </div>
             <div>
               <h4 className="text-[14px] font-medium mb-4">Platform</h4>
