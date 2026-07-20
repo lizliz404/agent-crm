@@ -1,24 +1,21 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
-import { tabs, tabContent, accounts } from "@/lib/data";
+import { tabs } from "@/lib/data";
 import { sectionInView } from "@/lib/animations";
+import { PlatformMock } from "@/components/PlatformMock";
 
 export function PlatformTabs() {
-  const [activeTab, setActiveTab] = useState("build-pipeline");
+  const [active, setActive] = useState(tabs[0].id);
+  const current = tabs.find((t) => t.id === active) ?? tabs[0];
 
   return (
-    <section className="py-24 px-6">
-      <div className="max-w-[1200px] mx-auto">
-        <motion.div
-          {...sectionInView}
-          className="text-center mb-16"
-        >
-          <span className="text-[14px] font-medium text-[#525252] uppercase tracking-wider">
-            Platform
-          </span>
-          <h2 className="text-section mt-4 max-w-[800px] mx-auto">
+    <section id="platform" className="py-24 md:py-28">
+      <div className="container-page">
+        <motion.div {...sectionInView} className="mx-auto mb-14 max-w-[820px] text-center">
+          <span className="text-eyebrow">Platform</span>
+          <h2 className="text-section mt-4">
             The intelligent system that never sleeps.
             <br />
             <span className="text-[#737373]">
@@ -28,79 +25,56 @@ export function PlatformTabs() {
           </h2>
         </motion.div>
 
-        {/* Tabs */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.6, delay: 0.1 }}
-          className="flex flex-wrap justify-center gap-2 mb-12"
-        >
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-4 py-2 text-[14px] font-medium rounded-[10px] transition-all ${
-                activeTab === tab.id
-                  ? "bg-[#0a0a0a] text-[#fafafa]"
-                  : "text-[#525252] hover:text-[#0a0a0a] hover:bg-[#f5f5f5]"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </motion.div>
-
-        {/* Tab Content */}
-        <motion.div
-          key={activeTab}
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="grid md:grid-cols-2 gap-12 items-start"
-        >
-          <div>
-            <h3 className="text-subsection mb-4">
-              {tabContent[activeTab].title}
-            </h3>
-            <h4 className="text-label mb-2">
-              {tabContent[activeTab].subtitle}
-            </h4>
-            <p className="text-body">{tabContent[activeTab].description}</p>
-          </div>
-
-          {/* Mock UI */}
-          <div className="bg-white rounded-[12px] border border-[#e5e5e5] p-6">
-            <div className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 rounded-full bg-[#f5f5f5] flex items-center justify-center text-[13px] font-medium">
-                ?
-              </div>
-              <span className="text-[14px] text-[#737373]">Ask something...</span>
-            </div>
-            <div className="text-[13px] text-[#525252] mb-4">
-              10 accounts ready for outreach
-            </div>
-            <div className="space-y-3">
-              {accounts.map((account) => (
-                <motion.div
-                  key={account.name}
-                  initial={{ opacity: 0, x: -10 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="flex items-center justify-between py-2 border-b border-[#f5f5f5] last:border-0"
+        <div className="grid gap-10 lg:grid-cols-[220px_1fr] lg:gap-12">
+          <motion.nav
+            initial={{ opacity: 0, x: -12 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.45 }}
+            aria-label="Homepage platform showcases"
+            className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-visible lg:pb-0"
+          >
+            {tabs.map((tab) => {
+              const on = active === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  type="button"
+                  onClick={() => setActive(tab.id)}
+                  className={`relative shrink-0 rounded-[10px] px-3.5 py-2.5 text-left text-[14px] font-medium transition-all ${
+                    on
+                      ? "bg-[#0a0a0a] text-white shadow-sm"
+                      : "text-[#525252] hover:bg-[#f4f4f5] hover:text-[#0a0a0a]"
+                  }`}
                 >
-                  <span className="text-[14px] font-medium">
-                    {account.name}
-                  </span>
-                  <span className="text-[13px] text-[#737373]">
-                    {account.signal}
-                  </span>
-                </motion.div>
-              ))}
-            </div>
+                  {tab.label}
+                </button>
+              );
+            })}
+          </motion.nav>
+
+          <div className="min-w-0">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={current.id}
+                initial={{ opacity: 0, y: 14 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.35 }}
+                className="grid items-start gap-8 xl:grid-cols-[0.9fr_1.1fr]"
+              >
+                <div className="max-w-xl">
+                  <h3 className="text-subsection mb-4 leading-snug">{current.title}</h3>
+                  <h4 className="mb-2 text-[17px] font-medium tracking-tight text-[#0a0a0a]">
+                    {current.subtitle}
+                  </h4>
+                  <p className="text-body">{current.description}</p>
+                </div>
+                <PlatformMock tabId={current.id} />
+              </motion.div>
+            </AnimatePresence>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   );

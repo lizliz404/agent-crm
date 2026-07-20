@@ -6,17 +6,15 @@ import { sectionInView } from "@/lib/animations";
 
 export function Changelog() {
   return (
-    <section className="py-24 px-6 border-t border-[#e5e5e5]">
-      <div className="max-w-[1200px] mx-auto">
+    <section className="border-t border-[#ececec] py-24 md:py-28">
+      <div className="container-page">
         <motion.div
           {...sectionInView}
-          className="flex items-end justify-between mb-12"
+          className="mb-10 flex flex-col items-start justify-between gap-4 md:mb-12 md:flex-row md:items-end"
         >
           <div>
-            <span className="text-[14px] font-medium text-[#525252]">
-              Changelog
-            </span>
-            <h2 className="text-section mt-2">
+            <span className="text-eyebrow">Changelog</span>
+            <h2 className="text-section mt-3">
               Better as you grow.
               <br />
               <span className="text-[#737373]">
@@ -26,44 +24,36 @@ export function Changelog() {
           </div>
           <a
             href="#"
-            className="text-[14px] font-medium text-[#525252] hover:text-[#0a0a0a] flex items-center gap-1"
+            className="inline-flex items-center gap-1 text-[14px] font-medium text-[#525252] hover:text-[#0a0a0a]"
           >
             View all
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-            >
-              <path
-                d="M6 12L10 8L6 4"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <span aria-hidden>→</span>
           </a>
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <div className="grid gap-4 md:grid-cols-2">
           {changelogItems.map((item, i) => (
             <motion.a
               key={item.title}
               href="#"
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 16 }}
               whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="p-6 rounded-[12px] border border-[#e5e5e5] bg-white hover:border-[#d4d4d4] transition-colors group"
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.45, delay: i * 0.06 }}
+              className="group overflow-hidden rounded-[16px] border border-[#e5e5e5] bg-white shadow-[var(--shadow-soft)] transition hover:-translate-y-0.5 hover:border-[#d4d4d4] hover:shadow-[var(--shadow-lift)]"
             >
-              <div className="text-[13px] text-[#737373] mb-2">
-                {item.date}
+              <div className="h-28 bg-gradient-to-br from-[#f4f4f5] to-[#e8e8ea]">
+                <div className="flex h-full items-end p-4">
+                  <span className="badge badge-neutral">{item.tag}</span>
+                </div>
               </div>
-              <h3 className="text-[17px] font-medium mb-1 group-hover:text-[#525252] transition-colors">
-                {item.title}
-              </h3>
-              <p className="text-[14px] text-[#737373]">{item.desc}</p>
+              <div className="p-5">
+                <div className="mb-2 text-[12.5px] text-[#737373]">{item.date}</div>
+                <h3 className="mb-1 text-[16px] font-semibold tracking-tight group-hover:text-[#404040]">
+                  {item.title}
+                </h3>
+                <p className="text-[13.5px] text-[#737373]">{item.desc}</p>
+              </div>
             </motion.a>
           ))}
         </div>

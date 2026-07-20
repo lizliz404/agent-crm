@@ -16,7 +16,14 @@ const interDisplay = Inter_Tight({
 
 export const metadata: Metadata = {
   title: "Agent CRM — The CRM for agentic revenue",
-  description: "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.",
+  description:
+    "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.",
+  openGraph: {
+    title: "Agent CRM — The CRM for agentic revenue",
+    description:
+      "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({
@@ -26,9 +33,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${interDisplay.variable}`}>
-      <body className="antialiased">
-        {children}
-      </body>
+      <body className="antialiased">{children}</body>
     </html>
   );
 }
