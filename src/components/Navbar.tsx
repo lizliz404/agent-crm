@@ -26,13 +26,26 @@ export function Navbar() {
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    const onScroll = () => {
-      const next = window.scrollY > 36;
-      setCompact((prev) => (prev === next ? prev : next));
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
+    const hero = document.getElementById("hero");
+    if (!hero) {
+      const onScroll = () => {
+        const next = window.scrollY > window.innerHeight * 0.85;
+        setCompact((prev) => (prev === next ? prev : next));
+      };
+      onScroll();
+      window.addEventListener("scroll", onScroll, { passive: true });
+      return () => window.removeEventListener("scroll", onScroll);
+    }
+
+    const io = new IntersectionObserver(
+      ([entry]) => {
+        const next = !entry.isIntersecting;
+        setCompact((prev) => (prev === next ? prev : next));
+      },
+      { threshold: 0, rootMargin: "0px" },
+    );
+    io.observe(hero);
+    return () => io.disconnect();
   }, []);
 
   useEffect(() => {
