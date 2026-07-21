@@ -16,6 +16,8 @@
   --color-warn: #d97706;
   --color-danger: #dc2626;
   --color-info: #2563eb;
+  /* Signature: "an agent authored this" — never status, never buttons */
+  --color-agent: #0891b2;
 
   --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.04), 0 8px 24px rgba(0, 0, 0, 0.06);
   --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.04), 0 16px 40px rgba(0, 0, 0, 0.1);
@@ -241,6 +243,37 @@
     border-color: #e5e5e5;
   }
 
+  /* Agent authorship chip — cyan = who did it, not how it's going */
+  .agent-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    padding: 0.15rem 0.55rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1.25;
+    color: #0e7490;
+    background: #ecfeff;
+    border: 1px solid #a5f3fc;
+    border-radius: 999px;
+  }
+
+  .agent-chip .agent-dot,
+  .agent-dot {
+    display: inline-block;
+    width: 0.375rem;
+    height: 0.375rem;
+    border-radius: 999px;
+    background: var(--color-agent);
+    animation: agent-pulse 1.6s ease-in-out infinite;
+  }
+
+  .agent-chip-dark {
+    color: #67e8f9;
+    background: rgba(8, 145, 178, 0.14);
+    border-color: rgba(8, 145, 178, 0.35);
+  }
+
   .container-page {
     width: 100%;
     max-width: 1180px;
@@ -296,6 +329,20 @@
   }
 }
 
+@keyframes agent-pulse {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(8, 145, 178, 0.4);
+  }
+  50% {
+    opacity: 0.7;
+    transform: scale(0.92);
+    box-shadow: 0 0 0 4px rgba(8, 145, 178, 0);
+  }
+}
+
 @keyframes typing-bounce {
   0%,
   80%,
@@ -320,6 +367,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .live-dot,
+  .agent-dot,
   .typing-dot,
   .interactive-window {
     animation: none !important;

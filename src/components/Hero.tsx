@@ -1,5 +1,6 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import {
   fadeInTransition,
@@ -7,11 +8,22 @@ import {
   staggerContainer,
 } from "@/lib/animations";
 import { HeroCollage } from "@/components/HeroCollage";
+import { NeverSleeps } from "@/components/NeverSleeps";
 
 export function Hero() {
+  const [isNight, setIsNight] = useState(false);
+  const onNightChange = useCallback((night: boolean) => setIsNight(night), []);
+
   return (
     <section className="relative overflow-hidden pb-10 pt-20 md:pt-24">
-      <div className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.9),transparent_60%)]" />
+      <div
+        className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] transition-[background] duration-700 ease-out"
+        style={{
+          background: isNight
+            ? "radial-gradient(ellipse at top, rgba(250,245,240,0.95), rgba(232,228,224,0.55) 45%, transparent 65%)"
+            : "radial-gradient(ellipse at top, rgba(255,255,255,0.9), transparent 60%)",
+        }}
+      />
       <div className="container-page">
         <div className="mx-auto max-w-[720px] text-center">
           <motion.div
@@ -19,6 +31,14 @@ export function Hero() {
             animate="animate"
             variants={staggerContainer}
           >
+            <motion.div
+              variants={fadeInUp}
+              transition={fadeInTransition}
+              className="mb-5 flex justify-center"
+            >
+              <NeverSleeps onNightChange={onNightChange} />
+            </motion.div>
+
             <motion.a
               href="#"
               variants={fadeInUp}

@@ -73,6 +73,7 @@ export function WindowChrome({
 }
 
 export function LogoMark({ className = "" }: { className?: string }) {
+  const innerFill = className.includes("text-white") ? "#0a0a0a" : "#fafafa";
   return (
     <span className={`inline-flex items-center gap-2 ${className}`}>
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
@@ -80,10 +81,10 @@ export function LogoMark({ className = "" }: { className?: string }) {
           d="M12 2.5c.4 0 .78.16 1.06.44l7 7a1.5 1.5 0 0 1 0 2.12l-7 7a1.5 1.5 0 0 1-2.12 0l-7-7a1.5 1.5 0 0 1 0-2.12l7-7c.28-.28.66-.44 1.06-.44Z"
           fill="currentColor"
         />
-        <path
-          d="M12 7.2 8.2 11 12 14.8 15.8 11 12 7.2Z"
-          fill={className.includes("text-white") ? "#0a0a0a" : "#fafafa"}
-        />
+        {/* Slight scan-offset — radar ping, not concentric gem (DESIGN §4) */}
+        <g transform="rotate(7 12.3 10.8) translate(0.4 -0.25)">
+          <path d="M12 7.2 8.2 11 12 14.8 15.8 11 12 7.2Z" fill={innerFill} />
+        </g>
       </svg>
       <span className="text-[15px] font-semibold tracking-tight">Agent CRM</span>
     </span>

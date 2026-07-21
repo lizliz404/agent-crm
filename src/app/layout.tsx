@@ -48,6 +48,8 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
     shortcut: ["/favicon.ico"],
   },
+  // Western OG: 1200×630. WeChat share cards compress to a square bubble —
+  // keep a separate 500×500 asset (DESIGN.md §10.6) when shipping CN distribution.
   openGraph: {
     title,
     description,
@@ -62,6 +64,8 @@ export const metadata: Metadata = {
         height: 630,
         alt: "Agent CRM — The CRM for agentic revenue",
       },
+      // WeChat / square share variant — 500×500 (DESIGN.md §10.6). File optional until generated.
+      // { url: "/og-wechat.png", width: 500, height: 500, alt: "Agent CRM" },
     ],
   },
   twitter: {

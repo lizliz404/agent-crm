@@ -4,6 +4,7 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { accounts, people, riskAccounts } from "@/lib/data";
 import { Avatar, WindowChrome } from "@/components/ui";
+import { AgentBadge } from "@/components/AgentBadge";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -126,6 +127,10 @@ function HealthBars() {
 function DraftButton({ name }: { name: string }) {
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
 
+  if (state === "done") {
+    return <AgentBadge>Drafted by Agent</AgentBadge>;
+  }
+
   return (
     <motion.button
       type="button"
@@ -135,18 +140,16 @@ function DraftButton({ name }: { name: string }) {
         if (state !== "idle") return;
         setState("loading");
         window.setTimeout(() => setState("done"), 700);
-        window.setTimeout(() => setState("idle"), 2200);
+        window.setTimeout(() => setState("idle"), 2800);
       }}
       className={`rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors ${
-        state === "done"
-          ? "bg-emerald-600 text-white"
-          : state === "loading"
-            ? "bg-[#404040] text-white"
-            : "bg-[#0a0a0a] text-white hover:bg-[#262626]"
+        state === "loading"
+          ? "bg-[#404040] text-white"
+          : "bg-[#0a0a0a] text-white hover:bg-[#262626]"
       }`}
       aria-label={`Draft outreach for ${name}`}
     >
-      {state === "loading" ? "Drafting…" : state === "done" ? "Queued" : "Draft"}
+      {state === "loading" ? "Drafting…" : "Draft"}
     </motion.button>
   );
 }

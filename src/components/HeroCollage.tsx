@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Avatar, WindowChrome } from "@/components/ui";
+import { AgentBadge } from "@/components/AgentBadge";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
@@ -174,8 +175,7 @@ export function HeroCollage() {
                         <div className="min-w-0">
                           <div className="flex items-center gap-1.5">
                             <span className="text-[13px] font-semibold">Agent CRM</span>
-                            <span className="badge badge-neutral">APP</span>
-                            <span className="text-[11px] text-[#a3a3a3]">{m.t}</span>
+                            <AgentBadge>Sent by Agent · {m.t}</AgentBadge>
                           </div>
                           <p className="mt-1 text-[13px] leading-snug text-[#404040]">{m.text}</p>
                         </div>
