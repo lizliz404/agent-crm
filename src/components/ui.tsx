@@ -72,19 +72,22 @@ export function WindowChrome({
   );
 }
 
+/** Dock Mark — asymmetric docking connector (DESIGN V3 §4). Not a diamond. */
 export function LogoMark({ className = "" }: { className?: string }) {
-  const innerFill = className.includes("text-white") ? "#0a0a0a" : "#fafafa";
+  const inverted = className.includes("text-white");
+  const tile = inverted ? "#fafafa" : "#0a0a0a";
+  const record = inverted ? "#0a0a0a" : "#fafafa";
   return (
     <span className={`inline-flex items-center gap-2 ${className}`}>
-      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden>
+      <svg width="22" height="22" viewBox="0 0 32 32" fill="none" aria-hidden>
+        <rect width="32" height="32" rx="7" fill={tile} />
         <path
-          d="M12 2.5c.4 0 .78.16 1.06.44l7 7a1.5 1.5 0 0 1 0 2.12l-7 7a1.5 1.5 0 0 1-2.12 0l-7-7a1.5 1.5 0 0 1 0-2.12l7-7c.28-.28.66-.44 1.06-.44Z"
-          fill="currentColor"
+          fill={record}
+          d="M8.9 4.2 H19.8 Q24 4.2 24 8.4 V19.5 H20.2 V23.4 H8.9 Q4.8 23.4 4.8 19.3 V8.4 Q4.8 4.2 8.9 4.2 Z"
         />
-        {/* Slight scan-offset — radar ping, not concentric gem (DESIGN §4) */}
-        <g transform="rotate(7 12.3 10.8) translate(0.4 -0.25)">
-          <path d="M12 7.2 8.2 11 12 14.8 15.8 11 12 7.2Z" fill={innerFill} />
-        </g>
+        <path fill="#000000" opacity="0.18" d="M20.2 19.5 H24 V20.4 H20.2 Z" />
+        <path fill="#000000" opacity="0.14" d="M20.2 19.5 V23.4 H21.1 V19.5 Z" />
+        <rect x="20.15" y="19.45" width="4.9" height="4.9" rx="0.55" fill="#22d3ee" />
       </svg>
       <span className="text-[15px] font-semibold tracking-tight">Agent CRM</span>
     </span>
