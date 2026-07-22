@@ -177,25 +177,33 @@ export const changelogItems: ChangelogItem[] = [
     date: "June 29, 2026",
     title: "What's new in Workflows",
     desc: "More of the work, off your plate.",
+    body: "Branching runs, credit-aware retries, and agent-authored run summaries that land in the deal room before standup.",
     tag: "Product",
+    author: "agent",
   },
   {
     date: "June 29, 2026",
     title: "New activity timeline",
     desc: "Eliminate noise in your records.",
+    body: "Human and agent events share one chronological feed — cyan chips mark every agent write so audit stays obvious.",
     tag: "UX",
+    author: "agent",
   },
   {
     date: "June 29, 2026",
     title: "Calls on mobile",
     desc: "Call recordings are now on mobile.",
+    body: "Listen, scrub, and jump to agent-extracted objections from the lock screen widget.",
     tag: "Mobile",
+    author: "human",
   },
   {
     date: "June 29, 2026",
     title: "More App Store updates",
     desc: "Connect Agent CRM to more of the tools you use every day.",
+    body: "Clay, Linear, and Notion syncs now stream into Universal Context™ with per-field agent attribution.",
     tag: "Ecosystem",
+    author: "agent",
   },
 ];
 
@@ -206,6 +214,10 @@ export const customerStories: CustomerStory[] = [
     headline:
       "83% faster lead triage. How Granola turns product signals into revenue at scale.",
     metric: "83% faster",
+    logo: "Granola",
+    quote:
+      "Agents dig through product signals overnight. We walk in to a ranked queue, not a Slack archaeology dig.",
+    body: "Granola's GTM team connected product telemetry and inbox in a week. Agents enrich every inbound, draft first touches, and escalate only when a human should decide. Triage time dropped from hours to minutes — without losing the audit trail leadership needed.",
   },
   {
     name: "Railway",
@@ -213,6 +225,10 @@ export const customerStories: CustomerStory[] = [
     headline:
       "One source of truth for every deal. Railway runs GTM without the spreadsheet tax.",
     metric: "4× pipeline",
+    logo: "Railway",
+    quote:
+      "Forecast used to be a Friday scramble. Now the number is already mapped when we open the room.",
+    body: "Railway collapsed three CRMs and a nest of sheets into Agent CRM. Agents keep stakeholders current between demos; RevOps trusts the same objects engineering already instruments.",
   },
   {
     name: "Modal",
@@ -220,6 +236,10 @@ export const customerStories: CustomerStory[] = [
     headline:
       "Agents that never sleep. Modal keeps enterprise deals moving between demos.",
     metric: "2.1× win rate",
+    logo: "Modal",
+    quote:
+      "The system briefs the AE before the buyer does. That alone paid for the seat.",
+    body: "Modal's enterprise motion runs across time zones. Overnight agents flag legal blockers, draft security packs, and nudge stalled threads — so AEs start the day already mid-conversation.",
   },
   {
     name: "Taskrabbit",
@@ -227,6 +247,10 @@ export const customerStories: CustomerStory[] = [
     headline:
       "From first touch to expand. Taskrabbit built a living system of record.",
     metric: "30k+ seats",
+    logo: "Taskrabbit",
+    quote:
+      "Retain and expand stopped being a quarterly surprise. Health scores surface weeks early.",
+    body: "Taskrabbit uses agent health scoring across the book. Watch and at-risk accounts get sequenced before churn, while expansion signals route to AEs with a draft already attached.",
   },
 ];
 

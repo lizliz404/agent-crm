@@ -1,5 +1,6 @@
 "use client";
 
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 
 type ClockSlot = {
@@ -23,6 +24,14 @@ const TZ_CITY: Record<string, string> = {
   "Asia/Seoul": "Seoul",
   "Australia/Sydney": "Sydney",
 };
+
+const AGENT_ACTIVITIES = [
+  "Agent drafting email",
+  "Agent enriching lead",
+  "Agent forecasting",
+  "Agent briefing AE",
+  "Agent watching renewal",
+] as const;
 
 function cityFromTz(tz: string): string {
   if (TZ_CITY[tz]) return TZ_CITY[tz];
@@ -66,7 +75,7 @@ function readClocks(now: Date): { local: ClockSlot; other: ClockSlot; isNight: b
 }
 
 /**
- * §5.7 Never Sleeps strip — live local + remote clocks with agent cyan dot.
+ * §5.7 Never Sleeps strip — live clocks + rotating agent activity states.
  * Proves "agents work around the clock" without a static tagline.
  */
 export function NeverSleeps({
@@ -78,6 +87,7 @@ export function NeverSleeps({
     local: ClockSlot;
     other: ClockSlot;
   } | null>(null);
+  const [activityIdx, setActivityIdx] = useState(0);
 
   useEffect(() => {
     const tick = () => {
@@ -90,20 +100,49 @@ export function NeverSleeps({
     return () => window.clearInterval(id);
   }, [onNightChange]);
 
+  useEffect(() => {
+    const id = window.setInterval(
+      () => setActivityIdx((v) => (v + 1) % AGENT_ACTIVITIES.length),
+      3200,
+    );
+    return () => window.clearInterval(id);
+  }, []);
+
   const local = clocks?.local ?? { time: "--:--", city: "…" };
   const other = clocks?.other ?? { time: "--:--", city: "…" };
+  const activity = AGENT_ACTIVITIES[activityIdx];
 
   return (
     <div
-      className="inline-flex max-w-full items-center gap-2 rounded-full border border-[#e5e5e5] bg-white/75 px-3 py-1.5 text-[12.5px] font-medium text-[#525252] shadow-sm backdrop-blur"
+      className="inline-flex max-w-full flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-full border border-[#e5e5e5] bg-white/75 px-3 py-1.5 text-[12.5px] font-medium text-[#525252] shadow-sm backdrop-blur"
       role="status"
       aria-live="polite"
-      aria-label={`Agents active. ${local.time} in ${local.city}. ${other.time} in ${other.city}.`}
+      aria-label={`${activity}. ${local.time} in ${local.city}. ${other.time} in ${other.city}.`}
     >
       <span className="agent-dot shrink-0" aria-hidden />
-      <span className="min-w-0 truncate">
-        <span className="text-[#0e7490]">Agents active</span>
-        <span className="text-[#a3a3a3]"> · </span>
+      <span className="inline-flex min-w-0 items-center gap-1.5">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.span
+            key={activity}
+            initial={{ opacity: 0, y: 4 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -4 }}
+            transition={{ duration: 0.25 }}
+            className="text-[#0e7490]"
+          >
+            {activity}
+          </motion.span>
+        </AnimatePresence>
+        <span
+          className="hidden h-1 w-1 rounded-full bg-emerald-500 sm:inline-block"
+          title="Live"
+          aria-hidden
+        />
+      </span>
+      <span className="hidden text-[#d4d4d4] sm:inline" aria-hidden>
+        ·
+      </span>
+      <span className="min-w-0 truncate tabular-nums">
         <span>
           {local.time} in {local.city}
         </span>

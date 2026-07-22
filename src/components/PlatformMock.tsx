@@ -75,60 +75,187 @@ function BookChart() {
 }
 
 function HealthBars() {
+  // Attio retain-bar pattern: clipPath + stacked blue/amber/rose with white seams
   const months = ["Jan", "Feb", "Mar", "Apr", "May"];
-  const stacks = [
-    [70, 18, 12],
-    [74, 16, 10],
-    [68, 20, 12],
-    [80, 12, 8],
-    [76, 14, 10],
+  const bars = [
+    { x: 16, healthy: 103.5, watch: 41.4, risk: 50.6 },
+    { x: 106, healthy: 112.7, watch: 46, risk: 32.2 },
+    { x: 196, healthy: 112.7, watch: 32.2, risk: 23 },
+    { x: 285, healthy: 138, watch: 13.8, risk: 9.2 },
+    { x: 375, healthy: 184, watch: 9.2, risk: 9.2 },
   ];
-  const active = useIdleHighlight(stacks.length, 1800);
+  const barW = 58;
+  const chartH = 230;
+  const active = useIdleHighlight(bars.length, 1800);
 
   return (
-    <div className="flex h-[120px] items-end gap-3 px-1">
-      {stacks.map((s, i) => (
-        <div key={months[i]} className="flex flex-1 flex-col items-center gap-1.5">
-          <div
-            className={`flex h-[96px] w-full flex-col justify-end overflow-hidden rounded-md transition-shadow ${
-              active === i ? "ring-2 ring-[#0a0a0a]/10" : ""
-            }`}
-          >
-            <motion.div
-              className="bg-[#fca5a5]"
-              initial={{ height: 0 }}
-              animate={{ height: `${s[2]}%` }}
-              transition={{ duration: 0.55, delay: 0.05 * i, ease }}
-            />
-            <motion.div
-              className="bg-[#fcd34d]"
-              initial={{ height: 0 }}
-              animate={{ height: `${s[1]}%` }}
-              transition={{ duration: 0.55, delay: 0.05 * i + 0.05, ease }}
-            />
-            <motion.div
-              className="bg-[#60a5fa]"
-              initial={{ height: 0 }}
-              animate={{ height: `${s[0]}%` }}
-              transition={{ duration: 0.55, delay: 0.05 * i + 0.1, ease }}
-            />
-          </div>
-          <span
-            className={`text-[10px] ${active === i ? "font-medium text-[#0a0a0a]" : "text-[#a3a3a3]"}`}
-          >
-            {months[i]}
-          </span>
-        </div>
-      ))}
+    <div className="relative">
+      <svg
+        viewBox="0 0 449 248"
+        className="h-[140px] w-full"
+        preserveAspectRatio="xMidYMid meet"
+        aria-hidden
+      >
+        {[0, 46, 92, 138, 184, 230].map((y) => (
+          <line
+            key={y}
+            x1="0"
+            x2="449"
+            y1={y}
+            y2={y}
+            stroke="#e5e5e5"
+            strokeWidth="1"
+            strokeDasharray="4 4"
+          />
+        ))}
+        {bars.map((b, i) => {
+          const total = b.healthy + b.watch + b.risk;
+          const topY = chartH - total;
+          const healthyBottom = topY + b.healthy;
+          const watchBottom = healthyBottom + b.watch;
+          const clipH = total;
+          const clipId = `retain-bar-clip-${i}`;
+          const on = active === i;
+          return (
+            <g key={months[i]} opacity={on ? 1 : 0.85}>
+              <defs>
+                <clipPath id={clipId}>
+                  <rect
+                    x={b.x}
+                    y={topY}
+                    width={barW}
+                    height={clipH}
+                    rx="4"
+                    ry="4"
+                  />
+                </clipPath>
+              </defs>
+              <g clipPath={`url(#${clipId})`}>
+                <motion.path
+                  d={`M ${b.x} ${healthyBottom}
+                      L ${b.x} ${topY + 4}
+                      Q ${b.x} ${topY} ${b.x + 4} ${topY}
+                      L ${b.x + barW - 4} ${topY}
+                      Q ${b.x + barW} ${topY} ${b.x + barW} ${topY + 4}
+                      L ${b.x + barW} ${healthyBottom} Z`}
+                  fill="#266df0"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ duration: 0.5, delay: 0.06 * i, ease }}
+                />
+                <rect
+                  x={b.x}
+                  y={healthyBottom}
+                  width={barW}
+                  height={b.watch}
+                  fill="#f5a300"
+                />
+                <rect
+                  x={b.x}
+                  y={watchBottom}
+                  width={barW}
+                  height={b.risk}
+                  fill="#ff5454"
+                />
+                <rect
+                  x={b.x}
+                  y={healthyBottom - 1}
+                  width={barW}
+                  height="2"
+                  fill="#fff"
+                />
+                <rect
+                  x={b.x}
+                  y={watchBottom - 1}
+                  width={barW}
+                  height="2"
+                  fill="#fff"
+                />
+              </g>
+              {on && (
+                <rect
+                  x={b.x - 2}
+                  y={topY - 2}
+                  width={barW + 4}
+                  height={clipH + 4}
+                  rx="6"
+                  fill="none"
+                  stroke="rgba(10,10,10,0.12)"
+                  strokeWidth="2"
+                />
+              )}
+              <text
+                x={b.x + barW / 2}
+                y="244"
+                textAnchor="middle"
+                fontSize="11"
+                fontWeight={on ? 600 : 400}
+                fill={on ? "#0a0a0a" : "#a3a3a3"}
+              >
+                {months[i]}
+              </text>
+            </g>
+          );
+        })}
+      </svg>
+      <div className="mt-1 flex justify-end">
+        <AgentBadge>Health scored by Agent</AgentBadge>
+      </div>
     </div>
   );
 }
 
+const draftSteps = [
+  "Reading ICP signals…",
+  "Pulling last touch…",
+  "Drafting outreach…",
+] as const;
+
 function DraftButton({ name }: { name: string }) {
   const [state, setState] = useState<"idle" | "loading" | "done">("idle");
+  const [step, setStep] = useState(0);
+
+  useEffect(() => {
+    if (state !== "loading") return;
+    setStep(0);
+    const timers = [
+      window.setTimeout(() => setStep(1), 450),
+      window.setTimeout(() => setStep(2), 900),
+      window.setTimeout(() => setState("done"), 1400),
+      window.setTimeout(() => {
+        setState("idle");
+        setStep(0);
+      }, 4200),
+    ];
+    return () => timers.forEach((t) => window.clearTimeout(t));
+  }, [state]);
 
   if (state === "done") {
-    return <AgentBadge>Drafted by Agent</AgentBadge>;
+    return (
+      <div className="flex flex-col items-end gap-1">
+        <AgentBadge>Drafted by Agent</AgentBadge>
+        <span className="text-[10px] text-[#0e7490]">Ready for {name.split(" ")[0]}</span>
+      </div>
+    );
+  }
+
+  if (state === "loading") {
+    return (
+      <div className="flex min-w-[140px] flex-col items-end gap-1">
+        <span className="inline-flex items-center gap-1.5 rounded-lg bg-[#404040] px-2.5 py-1 text-[11px] font-medium text-white">
+          <span className="agent-dot !bg-[#22d3ee]" />
+          {draftSteps[step]}
+        </span>
+        <div className="h-0.5 w-full overflow-hidden rounded-full bg-[#e5e5e5]">
+          <motion.div
+            className="h-full bg-[var(--color-agent)]"
+            initial={{ width: "0%" }}
+            animate={{ width: `${((step + 1) / draftSteps.length) * 100}%` }}
+            transition={{ duration: 0.35 }}
+          />
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -136,20 +263,11 @@ function DraftButton({ name }: { name: string }) {
       type="button"
       whileHover={{ scale: 1.04 }}
       whileTap={{ scale: 0.96 }}
-      onClick={() => {
-        if (state !== "idle") return;
-        setState("loading");
-        window.setTimeout(() => setState("done"), 700);
-        window.setTimeout(() => setState("idle"), 2800);
-      }}
-      className={`rounded-lg px-2.5 py-1 text-[11px] font-medium transition-colors ${
-        state === "loading"
-          ? "bg-[#404040] text-white"
-          : "bg-[#0a0a0a] text-white hover:bg-[#262626]"
-      }`}
+      onClick={() => setState("loading")}
+      className="rounded-lg bg-[#0a0a0a] px-2.5 py-1 text-[11px] font-medium text-white transition-colors hover:bg-[#262626]"
       aria-label={`Draft outreach for ${name}`}
     >
-      {state === "loading" ? "Drafting…" : "Draft"}
+      Draft
     </motion.button>
   );
 }
@@ -178,10 +296,13 @@ export function PlatformMock({ tabId }: { tabId: string }) {
             <div className="text-[13px] font-medium text-[#0a0a0a]">
               10 accounts ready for outreach
             </div>
-            <span className="badge badge-success">
-              <span className="live-dot bg-emerald-500" />
-              enriched
-            </span>
+            <div className="flex items-center gap-1.5">
+              <AgentBadge>Agent queue</AgentBadge>
+              <span className="badge badge-success">
+                <span className="live-dot bg-emerald-500" />
+                enriched
+              </span>
+            </div>
           </div>
           <div className="space-y-2">
             {accounts.map((a, i) => {
@@ -260,7 +381,10 @@ export function PlatformMock({ tabId }: { tabId: string }) {
             transition={{ delay: 0.25 }}
             className="sm:col-span-2 rounded-xl border border-dashed border-[#d4d4d4] p-3"
           >
-            <div className="mb-2 text-[12px] font-medium text-[#525252]">Routing rule</div>
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <div className="text-[12px] font-medium text-[#525252]">Routing rule</div>
+              <AgentBadge>Applied by Agent</AgentBadge>
+            </div>
             <div className="flex flex-wrap items-center gap-2 text-[12.5px]">
               {["ICP = Enterprise", "Owner = AE Pod A", "Sequence: Fast lane"].map((chip, i) => (
                 <motion.span
@@ -296,6 +420,10 @@ export function PlatformMock({ tabId }: { tabId: string }) {
     return (
       <WindowChrome title="Deal room · Active stakeholders" className="interactive-window">
         <div className="space-y-2.5 p-4">
+          <div className="mb-1 flex items-center justify-between">
+            <span className="text-[12px] text-[#737373]">Stakeholders in motion</span>
+            <AgentBadge>Briefed by Agent</AgentBadge>
+          </div>
           {people.map((p, i) => {
             const on = peopleHi === i;
             return (
@@ -359,12 +487,12 @@ export function PlatformMock({ tabId }: { tabId: string }) {
               Where are we soft on quota coverage this week?
             </div>
           </motion.div>
-          <div className="mb-3 grid grid-cols-3 gap-2">
-            {[
-              { l: "Commit", v: "$1.2M", c: "text-emerald-600" },
-              { l: "Best case", v: "$1.8M", c: "text-[#2563eb]" },
-              { l: "Gap", v: "$210k", c: "text-rose-600" },
-            ].map((x, i) => (
+            <div className="mb-3 grid grid-cols-3 gap-2">
+              {[
+                { l: "Commit", v: "$1.2M", c: "text-emerald-600" },
+                { l: "Best case", v: "$1.8M", c: "text-[#2563eb]" },
+                { l: "Gap", v: "$210k", c: "text-rose-600" },
+              ].map((x, i) => (
               <motion.div
                 key={x.l}
                 initial={{ opacity: 0, y: 8 }}
@@ -377,8 +505,11 @@ export function PlatformMock({ tabId }: { tabId: string }) {
                 <div className={`text-[18px] font-semibold tracking-tight ${x.c}`}>{x.v}</div>
               </motion.div>
             ))}
-          </div>
-          <div className="space-y-2">
+            </div>
+            <div className="mb-3">
+              <AgentBadge>Forecasted by Agent</AgentBadge>
+            </div>
+            <div className="space-y-2">
             {[
               "Legal is blocking 3 enterprise deals totaling $180k.",
               "AE coverage thin on EMEA mid-market this Friday.",
@@ -427,9 +558,18 @@ export function PlatformMock({ tabId }: { tabId: string }) {
             <div className="mb-2 flex items-center justify-between">
               <div className="text-[13px] font-semibold">Account Health</div>
               <div className="flex items-center gap-2 text-[11px] text-[#737373]">
-                <span>Healthy</span>
-                <span>Watch</span>
-                <span>At risk</span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#266df0]" />
+                  Healthy
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#f5a300]" />
+                  Watch
+                </span>
+                <span className="inline-flex items-center gap-1">
+                  <span className="h-1.5 w-1.5 rounded-full bg-[#ff5454]" />
+                  At risk
+                </span>
               </div>
             </div>
             <HealthBars />
@@ -439,6 +579,7 @@ export function PlatformMock({ tabId }: { tabId: string }) {
         <div className="rounded-xl bg-[#fafafa] p-3 ring-1 ring-[#ececec]">
           <div className="mb-1 flex items-center gap-2 text-[11px] font-medium uppercase tracking-wide text-[#a3a3a3]">
             <span className="live-dot bg-amber-500" />2 tools used
+            <AgentBadge className="!normal-case tracking-normal">Agent brief</AgentBadge>
           </div>
           <div className="mb-3 text-[13.5px] font-medium leading-snug text-[#0a0a0a]">
             Top accounts at risk CS should prioritize this week

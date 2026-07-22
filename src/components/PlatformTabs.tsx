@@ -69,7 +69,7 @@ export function PlatformTabs() {
                   <h4 className="mb-2 text-[17px] font-medium tracking-tight text-[#0a0a0a]">
                     {current.subtitle}
                   </h4>
-                  <p className="text-body">{current.description}</p>
+                  <p className="text-pull text-[#737373]">{current.description}</p>
                 </div>
                 <PlatformMock tabId={current.id} />
               </motion.div>

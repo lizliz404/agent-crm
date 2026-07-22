@@ -3,6 +3,7 @@
 import { motion } from "framer-motion";
 import { changelogItems } from "@/lib/data";
 import { sectionInView } from "@/lib/animations";
+import { AgentBadge } from "@/components/AgentBadge";
 
 export function Changelog() {
   return (
@@ -17,8 +18,9 @@ export function Changelog() {
             <h2 className="text-section mt-3">
               Better as you grow.
               <br />
-              <span className="text-[#737373]">
-                New features every week to keep pace with you.
+              <span className="text-pull mt-2 block max-w-lg normal-case tracking-normal text-[#737373]">
+                New features every week — many shipped by agents, tagged so you
+                always know who authored the change.
               </span>
             </h2>
           </div>
@@ -42,17 +44,34 @@ export function Changelog() {
               transition={{ duration: 0.45, delay: i * 0.06 }}
               className="group overflow-hidden rounded-[16px] border border-[#e5e5e5] bg-white shadow-[var(--shadow-soft)] transition hover:-translate-y-0.5 hover:border-[#d4d4d4] hover:shadow-[var(--shadow-lift)]"
             >
-              <div className="h-28 bg-gradient-to-br from-[#f4f4f5] to-[#e8e8ea]">
-                <div className="flex h-full items-end p-4">
-                  <span className="badge badge-neutral">{item.tag}</span>
+              <div className="relative h-28 overflow-hidden bg-gradient-to-br from-[#f4f4f5] to-[#e8e8ea]">
+                <div className="absolute inset-0 opacity-40 [background-image:radial-gradient(circle_at_20%_30%,rgba(8,145,178,0.15),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(10,10,10,0.06),transparent_35%)]" />
+                <div className="relative flex h-full items-end justify-between gap-2 p-4">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="badge badge-neutral">{item.tag}</span>
+                    {item.author === "agent" ? (
+                      <AgentBadge>Authored by Agent</AgentBadge>
+                    ) : (
+                      <span className="badge badge-neutral">Team</span>
+                    )}
+                  </div>
+                  <span className="text-[11px] tabular-nums text-[#a3a3a3]">
+                    {item.date}
+                  </span>
                 </div>
               </div>
               <div className="p-5">
-                <div className="mb-2 text-[12.5px] text-[#737373]">{item.date}</div>
                 <h3 className="mb-1 text-[16px] font-semibold tracking-tight group-hover:text-[#404040]">
                   {item.title}
                 </h3>
-                <p className="text-[13.5px] text-[#737373]">{item.desc}</p>
+                <p className="mb-2 text-[13.5px] font-medium text-[#525252]">
+                  {item.desc}
+                </p>
+                {item.body && (
+                  <p className="text-serif text-[13px] leading-relaxed text-[#737373]">
+                    {item.body}
+                  </p>
+                )}
               </div>
             </motion.a>
           ))}

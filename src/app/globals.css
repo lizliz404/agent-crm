@@ -3,6 +3,8 @@
 @theme {
   --font-display: var(--font-inter-display), ui-sans-serif, system-ui, sans-serif;
   --font-body: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  /* Editorial serif — libre stand-in for Attio's Tiempos Text */
+  --font-serif: var(--font-source-serif), "Source Serif 4", Georgia, "Times New Roman", serif;
 
   --color-ink: #0a0a0a;
   --color-ink-soft: #171717;
@@ -92,6 +94,24 @@
     font-size: 1rem;
     line-height: 1.55;
     color: var(--color-mute-2);
+  }
+
+  /* Editorial pull / feature description — TiemposText analogue */
+  .text-serif {
+    font-family: var(--font-serif);
+    font-weight: 400;
+    letter-spacing: -0.01em;
+    font-feature-settings: "kern", "liga";
+  }
+
+  .text-pull {
+    font-family: var(--font-serif);
+    font-size: clamp(1.125rem, 2vw, 1.375rem);
+    line-height: 1.45;
+    font-weight: 400;
+    letter-spacing: -0.015em;
+    color: var(--color-mute-2);
+    font-style: italic;
   }
 
   .btn-primary {
@@ -358,6 +378,70 @@
   }
 }
 
+/* Attio-parity pipeline radar (from attio-recon dump) */
+@keyframes pipeline-radar-ring-inner {
+  0% {
+    opacity: 0.11;
+  }
+  16% {
+    opacity: 0.22;
+  }
+  50% {
+    opacity: 0.07;
+  }
+  68% {
+    opacity: 0.11;
+  }
+  100% {
+    opacity: 0.11;
+  }
+}
+
+@keyframes pipeline-radar-ring-outer {
+  0% {
+    opacity: 0.067;
+  }
+  16% {
+    opacity: 0.135;
+  }
+  50% {
+    opacity: 0.045;
+  }
+  68% {
+    opacity: 0.067;
+  }
+  100% {
+    opacity: 0.067;
+  }
+}
+
+@keyframes pipeline-radar-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+.pipeline-radar-ring-inner {
+  opacity: 0.11;
+  animation: pipeline-radar-ring-inner 3.6s ease-in-out infinite;
+}
+
+.pipeline-radar-ring-outer {
+  opacity: 0.067;
+  animation: pipeline-radar-ring-outer 3.6s ease-in-out infinite;
+}
+
+.pipeline-radar-bob {
+  transform-box: fill-box;
+  transform-origin: center;
+  will-change: transform;
+  animation: pipeline-radar-bob 4s ease-in-out infinite;
+}
+
 /* Floating Dynamic Island nav shell */
 .nav-island {
   transition: box-shadow 0.25s ease;
@@ -371,7 +455,10 @@
   .live-dot,
   .agent-dot,
   .typing-dot,
-  .interactive-window {
+  .interactive-window,
+  .pipeline-radar-ring-inner,
+  .pipeline-radar-ring-outer,
+  .pipeline-radar-bob {
     animation: none !important;
     transition: none !important;
   }

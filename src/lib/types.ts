@@ -18,6 +18,9 @@ export interface ChangelogItem {
   title: string;
   desc: string;
   tag: string;
+  /** When set, shows agent-authorship chip */
+  author?: "agent" | "human";
+  body?: string;
 }
 
 export interface CustomerStory {
@@ -25,6 +28,9 @@ export interface CustomerStory {
   category: string;
   headline: string;
   metric: string;
+  quote?: string;
+  body?: string;
+  logo?: string;
 }
 
 export interface ScaleItem {

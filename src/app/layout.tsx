@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Inter, Inter_Tight } from "next/font/google";
+import { Inter, Inter_Tight, Source_Serif_4 } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({
@@ -12,6 +12,13 @@ const interDisplay = Inter_Tight({
   subsets: ["latin"],
   variable: "--font-inter-display",
   display: "swap",
+});
+
+const sourceSerif = Source_Serif_4({
+  subsets: ["latin"],
+  variable: "--font-source-serif",
+  display: "swap",
+  style: ["normal", "italic"],
 });
 
 const siteUrl = "https://agent-crm.lizliz.xyz";
@@ -134,7 +141,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${interDisplay.variable}`}>
+    <html
+      lang="en"
+      className={`${inter.variable} ${interDisplay.variable} ${sourceSerif.variable}`}
+    >
       <body className="antialiased">
         <script
           type="application/ld+json"

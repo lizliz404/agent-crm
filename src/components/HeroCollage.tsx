@@ -108,6 +108,134 @@ function useReveal(count: number, stepMs: number, loopMs = 9000) {
   return n;
 }
 
+/** Attio-parity pipeline radar — rings + bobbing signal chips */
+function PipelineRadar() {
+  const chips = [
+    {
+      x: 39.5,
+      y: 94,
+      w: 71,
+      label: "ICP: 98",
+      fill: "#e0fced",
+      stroke: "#cbf7e1",
+      color: "#007d53",
+      delay: "1000ms",
+      dur: "3800ms",
+      cx: 75,
+    },
+    {
+      x: 229,
+      y: 46,
+      w: 78,
+      label: "New Exec",
+      fill: "#fdf7c4",
+      stroke: "#fcef7e",
+      color: "#665a00",
+      delay: "1650ms",
+      dur: "4150ms",
+      cx: 268,
+    },
+    {
+      x: 2.5,
+      y: 255,
+      w: 151,
+      label: "Warm intro via a16z",
+      fill: "#e5eeff",
+      stroke: "#d6e5ff",
+      color: "#215bc4",
+      delay: "2300ms",
+      dur: "4500ms",
+      cx: 78,
+    },
+    {
+      x: 194,
+      y: 268,
+      w: 104,
+      label: "$5B Series H",
+      fill: "#f5f0ff",
+      stroke: "#e8ddfe",
+      color: "#6238b5",
+      delay: "2950ms",
+      dur: "4850ms",
+      cx: 246,
+    },
+  ];
+
+  return (
+    <svg
+      viewBox="0 0 320 320"
+      className="mx-auto h-auto w-full max-w-[280px]"
+      aria-hidden
+    >
+      <circle
+        className="pipeline-radar-ring-outer"
+        cx="160"
+        cy="160"
+        r="148"
+        fill="none"
+        stroke="rgba(28,40,64,0.9)"
+        strokeWidth="1"
+        style={{ animationDelay: "0.4s" }}
+      />
+      <circle
+        className="pipeline-radar-ring-inner"
+        cx="160"
+        cy="160"
+        r="100"
+        fill="none"
+        stroke="rgba(28,40,64,0.9)"
+        strokeWidth="1"
+      />
+      <circle
+        cx="160"
+        cy="160"
+        r="56"
+        fill="#fff"
+        stroke="rgba(28,40,64,0.05)"
+        strokeWidth="1"
+        style={{ filter: "drop-shadow(0 8px 20px rgba(28,40,64,0.12))" }}
+      />
+      {/* Dock Mark stand-in at radar core */}
+      <rect x="142" y="142" width="36" height="36" rx="8" fill="#0a0a0a" />
+      <rect x="147" y="146" width="22" height="22" rx="5" fill="#fafafa" />
+      <rect x="163" y="162" width="9" height="9" rx="2" fill="#22d3ee" />
+      {chips.map((c) => (
+        <g
+          key={c.label}
+          className="pipeline-radar-bob"
+          style={{
+            animationDelay: c.delay,
+            animationDuration: c.dur,
+          }}
+        >
+          <rect
+            x={c.x}
+            y={c.y}
+            width={c.w}
+            height="26"
+            rx="9"
+            fill={c.fill}
+            stroke={c.stroke}
+            strokeWidth="1.27"
+          />
+          <text
+            x={c.cx}
+            y={c.y + 13}
+            textAnchor="middle"
+            dominantBaseline="central"
+            fontSize="13"
+            fontWeight="500"
+            letterSpacing="-0.13"
+            fill={c.color}
+          >
+            {c.label}
+          </text>
+        </g>
+      ))}
+    </svg>
+  );
+}
+
 export function HeroCollage() {
   const chatN = useReveal(chatSteps.length, 900, 8000);
   const termN = useReveal(terminalLines.length, 700, 10000);
@@ -125,6 +253,22 @@ export function HeroCollage() {
   return (
     <div className="relative mx-auto mt-16 max-w-[1100px]">
       <div className="pointer-events-none absolute inset-0 -z-10 rounded-[28px] bg-[radial-gradient(ellipse_at_center,rgba(244,244,245,0.9),transparent_70%)]" />
+
+      {/* Floating radar — 5th overlapping window for Attio-density theater */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.92, y: 20 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.8, delay: 0.55, ease }}
+        className="absolute -left-2 top-[42%] z-20 hidden w-[200px] lg:block xl:-left-6 xl:w-[220px]"
+      >
+        <div className="surface-window interactive-window rotate-[-3deg] p-3">
+          <div className="mb-1.5 flex items-center justify-between px-0.5">
+            <span className="text-[11px] font-medium text-[#737373]">Signal radar</span>
+            <AgentBadge className="!px-1.5 !py-0.5 !text-[10px]">Agent scan</AgentBadge>
+          </div>
+          <PipelineRadar />
+        </div>
+      </motion.div>
 
       <div className="grid items-start gap-4 lg:grid-cols-[0.9fr_1.35fr_0.95fr]">
         {/* Left column */}
@@ -411,8 +555,11 @@ export function HeroCollage() {
                   transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                   className="absolute bottom-4 right-4 w-[170px] rounded-xl bg-white/95 p-3 shadow-[var(--shadow-soft)] ring-1 ring-[#e5e5e5] backdrop-blur"
                 >
-                  <div className="mb-2 text-[11px] font-medium uppercase tracking-wide text-[#a3a3a3]">
-                    Overview
+                  <div className="mb-1.5 flex items-center justify-between gap-1">
+                    <span className="text-[11px] font-medium uppercase tracking-wide text-[#a3a3a3]">
+                      Overview
+                    </span>
+                    <AgentBadge className="!px-1.5 !py-0.5 !text-[10px]">Agent</AgentBadge>
                   </div>
                   <div className="grid grid-cols-2 gap-2 text-[12px]">
                     <div>
@@ -522,11 +669,37 @@ export function HeroCollage() {
                     </motion.div>
                   ))}
                 </AnimatePresence>
+                {lineN >= transcript.length && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    className="mt-1 flex items-center gap-2 rounded-lg bg-[#ecfeff]/60 px-2 py-1.5 ring-1 ring-[#a5f3fc]/50"
+                  >
+                    <AgentBadge>Agent brief ready</AgentBadge>
+                    <span className="text-[11px] text-[#0e7490]">Buyer auth confirmed</span>
+                  </motion.div>
+                )}
               </div>
             </div>
           </WindowChrome>
         </motion.div>
       </div>
+
+      {/* Mobile / tablet radar — below collage when absolute float is hidden */}
+      <motion.div
+        initial={{ opacity: 0, y: 16 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.5, ease }}
+        className="mt-4 lg:hidden"
+      >
+        <div className="surface-window mx-auto max-w-sm p-4">
+          <div className="mb-2 flex items-center justify-between">
+            <span className="text-[12px] font-medium text-[#737373]">Signal radar</span>
+            <AgentBadge>Agent scan</AgentBadge>
+          </div>
+          <PipelineRadar />
+        </div>
+      </motion.div>
     </div>
   );
 }
