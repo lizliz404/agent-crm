@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   AnimatePresence,
   LayoutGroup,
@@ -20,17 +20,41 @@ const EXPANDED_EXTRA = [{ label: "Resources", href: "#resources" }] as const;
 const spring = { type: "spring" as const, stiffness: 320, damping: 32, mass: 0.85 };
 const softFade = { duration: 0.22, ease: [0.22, 1, 0.36, 1] as const };
 
+type NavState = "full" | "transitioning" | "compact";
+
+function resolveNavState(
+  heroIntersecting: boolean,
+  scrollY: number,
+): NavState {
+  if (!heroIntersecting) return "compact";
+  if (scrollY === 0) return "full";
+  return "transitioning";
+}
+
 export function Navbar() {
-  const [compact, setCompact] = useState(false);
+  const [navState, setNavState] = useState<NavState>("full");
   const [mobileOpen, setMobileOpen] = useState(false);
+  const heroIntersectingRef = useRef(true);
   const reduceMotion = useReducedMotion();
+  const compact = navState === "compact";
 
   useEffect(() => {
     const hero = document.getElementById("hero");
+
+    const sync = () => {
+      const next = resolveNavState(
+        heroIntersectingRef.current,
+        window.scrollY,
+      );
+      setNavState((prev) => (prev === next ? prev : next));
+    };
+
     if (!hero) {
       const onScroll = () => {
-        const next = window.scrollY > window.innerHeight * 0.85;
-        setCompact((prev) => (prev === next ? prev : next));
+        const scrollY = window.scrollY;
+        const heroOut = scrollY > window.innerHeight * 0.85;
+        heroIntersectingRef.current = !heroOut;
+        sync();
       };
       onScroll();
       window.addEventListener("scroll", onScroll, { passive: true });
@@ -39,13 +63,18 @@ export function Navbar() {
 
     const io = new IntersectionObserver(
       ([entry]) => {
-        const next = !entry.isIntersecting;
-        setCompact((prev) => (prev === next ? prev : next));
+        heroIntersectingRef.current = entry.isIntersecting;
+        sync();
       },
       { threshold: 0, rootMargin: "0px" },
     );
     io.observe(hero);
-    return () => io.disconnect();
+    window.addEventListener("scroll", sync, { passive: true });
+    sync();
+    return () => {
+      io.disconnect();
+      window.removeEventListener("scroll", sync);
+    };
   }, []);
 
   useEffect(() => {
@@ -59,28 +88,49 @@ export function Navbar() {
 
   const transition = reduceMotion ? { duration: 0 } : spring;
   const itemTransition = reduceMotion ? { duration: 0 } : softFade;
+  const itemMorph =
+    navState === "transitioning" && !reduceMotion
+      ? { opacity: 0.88, scale: 0.98 }
+      : { opacity: 1, scale: 1 };
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 flex justify-center px-3 pt-3 sm:pt-4">
+    <header
+      className={`pointer-events-none fixed inset-x-0 top-0 z-50 flex ${
+        navState === "full" ? "" : "justify-center px-3 pt-3 sm:pt-4"
+      }`}
+    >
       <LayoutGroup id="nav-island">
-        <div className="pointer-events-auto relative flex w-full max-w-[min(100%,720px)] flex-col items-center">
+        <motion.div
+          layout
+          transition={transition}
+          className={`pointer-events-auto relative flex flex-col ${
+            navState === "full"
+              ? "w-full"
+              : "w-full max-w-[min(100%,720px)] items-center"
+          }`}
+        >
           <motion.nav
             layout
             layoutRoot
             aria-label="Primary"
             transition={transition}
-            className={`nav-island flex items-center border border-black/[0.06] bg-white/92 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl ${
-              compact
-                ? "h-11 gap-1 rounded-full px-2.5 sm:gap-1.5 sm:px-3"
-                : "h-14 gap-2 rounded-full px-3 sm:gap-3 sm:px-5"
+            animate={{
+              borderRadius: navState === "full" ? 0 : 9999,
+            }}
+            className={`nav-island flex items-center ${
+              navState === "full"
+                ? "h-14 w-full gap-2 border-x-0 border-b border-t-0 border-black/[0.06] bg-white px-4 shadow-none sm:gap-3 sm:px-6 lg:px-8"
+                : navState === "compact"
+                  ? "h-11 gap-1 border border-black/[0.06] bg-white/92 px-2.5 shadow-[0_8px_30px_rgba(0,0,0,0.08)] backdrop-blur-xl sm:gap-1.5 sm:px-3"
+                  : "h-12 gap-1.5 border border-black/[0.06] bg-white/96 px-3 shadow-[0_6px_24px_rgba(0,0,0,0.06)] backdrop-blur-xl sm:gap-2 sm:px-4"
             } ${mobileOpen ? "shadow-[0_12px_40px_rgba(0,0,0,0.12)]" : ""}`}
-            style={{ borderRadius: 9999 }}
           >
             <motion.a
               layout
               href="#"
               className="shrink-0 text-[#0a0a0a]"
               transition={transition}
+              animate={itemMorph}
               onClick={() => setMobileOpen(false)}
             >
               <LogoMark
@@ -97,6 +147,7 @@ export function Navbar() {
               layout
               className="hidden min-w-0 items-center md:flex"
               transition={transition}
+              animate={itemMorph}
             >
               <div
                 className={`flex items-center ${compact ? "gap-0.5" : "gap-0.5 sm:gap-1"}`}
@@ -107,6 +158,7 @@ export function Navbar() {
                     layout
                     href={item.href}
                     transition={transition}
+                    animate={itemMorph}
                     className={`rounded-full font-medium text-[#525252] transition-colors hover:bg-black/[0.04] hover:text-[#0a0a0a] ${
                       compact
                         ? "px-2.5 py-1.5 text-[13px]"
@@ -145,7 +197,12 @@ export function Navbar() {
               </div>
             </motion.div>
 
-            <motion.div layout className="ml-auto flex items-center gap-1 sm:gap-1.5" transition={transition}>
+            <motion.div
+              layout
+              className="ml-auto flex items-center gap-1 sm:gap-1.5"
+              transition={transition}
+              animate={itemMorph}
+            >
               <AnimatePresence initial={false} mode="popLayout">
                 {!compact ? (
                   <motion.a
@@ -265,7 +322,7 @@ export function Navbar() {
               </motion.div>
             ) : null}
           </AnimatePresence>
-        </div>
+        </motion.div>
       </LayoutGroup>
 
       {/* Tap-away scrim for mobile menu */}

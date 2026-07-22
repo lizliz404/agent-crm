@@ -17,7 +17,48 @@ const interDisplay = Inter_Tight({
 const siteUrl = "https://agent-crm.lizliz.xyz";
 const title = "Agent CRM — The CRM for agentic revenue";
 const description =
-  "Agent CRM builds pipeline, advances deals, and grows accounts around the clock.";
+  "The agentic CRM that builds pipeline, advances deals, and grows accounts around the clock.";
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Organization",
+      "@id": `${siteUrl}/#organization`,
+      name: "Agent CRM",
+      url: siteUrl,
+      logo: `${siteUrl}/icon-512.png`,
+      description,
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      name: "Agent CRM",
+      url: siteUrl,
+      description,
+      inLanguage: ["en", "zh-CN"],
+      availableLanguage: ["en", "zh-CN"],
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "SoftwareApplication",
+      "@id": `${siteUrl}/#app`,
+      name: "Agent CRM",
+      applicationCategory: "BusinessApplication",
+      operatingSystem: "Web",
+      url: siteUrl,
+      description,
+      inLanguage: ["en", "zh-CN"],
+      availableLanguage: ["en", "zh-CN"],
+      offers: {
+        "@type": "Offer",
+        price: "0",
+        priceCurrency: "USD",
+      },
+      publisher: { "@id": `${siteUrl}/#organization` },
+    },
+  ],
+};
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
@@ -56,10 +97,14 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Agent CRM",
     locale: "en_US",
+    // Valid Next.js Metadata field → og:locale:alternate
+    alternateLocale: ["zh_CN"],
     type: "website",
     images: [
       {
         url: "/og-image.png",
+        secureUrl: `${siteUrl}/og-image.png`,
+        type: "image/png",
         width: 1200,
         height: 630,
         alt: "Agent CRM — The CRM for agentic revenue",
@@ -90,7 +135,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${interDisplay.variable}`}>
-      <body className="antialiased">{children}</body>
+      <body className="antialiased">
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
