@@ -80,6 +80,12 @@ export function Hero() {
               <a href="#" className="btn-secondary">
                 Start for free
               </a>
+              <a
+                href="#"
+                className="inline-flex items-center gap-1.5 rounded-full border border-[#e5e5e5] bg-white/80 px-4 py-2.5 text-[14px] font-medium text-[#525252] shadow-sm backdrop-blur transition hover:border-[#d4d4d4] hover:text-[#0a0a0a]"
+              >
+                Send me a demo
+              </a>
             </motion.div>
           </motion.div>
         </div>

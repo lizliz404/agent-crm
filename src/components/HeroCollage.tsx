@@ -4,109 +4,31 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Avatar, WindowChrome } from "@/components/ui";
 import { AgentBadge } from "@/components/AgentBadge";
+import { useCycle, useReveal } from "@/lib/hooks";
+import {
+  chatSteps as chatStepsData,
+  terminalLines,
+  workflowNodes,
+  transcript,
+} from "@/lib/data";
 
 const ease = [0.22, 1, 0.36, 1] as const;
 
-const chatSteps = [
-  {
-    kind: "user" as const,
-    who: "Marcus",
-    initials: "M",
-    tone: "blue" as const,
-    t: "10:24",
-    text: "@AgentCRM what deals should I focus on today?",
-  },
-  {
-    kind: "bot" as const,
-    t: "10:24",
-    text: (
-      <>
-        <span className="font-medium text-[#0a0a0a]">GreenLeaf</span> (verbal yes, no quote
-        out) and <span className="font-medium text-[#0a0a0a]">Ramp</span> (stalled in Legal
-        5d).
-      </>
-    ),
-  },
-];
-
-const terminalLines = [
-  { kind: "cmd", text: "Find yesterday's demo call and create the right follow-up task." },
-  { kind: "meta", text: "Ran 3 commands" },
-  { kind: "tool", text: "· search-call-recordings-by-metadata" },
-  { kind: "tool", text: "· get-call-recording" },
-  { kind: "tool", text: "· create-task" },
-  {
-    kind: "result",
-    text: "Pulled transcript · flagged pricing objection · queued AE follow-up for GreenLeaf.",
-  },
-];
-
-const workflowNodes = [
-  {
-    id: "ent",
-    title: "Add to Enterprise target list",
-    body: "Route lead to Enterprise and draft outreach for AE.",
-    status: "ok" as const,
-  },
-  {
-    id: "smb",
-    title: "Add to SMB target list",
-    body: "Route lead to SMB and draft a lighter first touch.",
-    status: "ready" as const,
-  },
-];
-
-const transcript = [
-  {
-    who: "Ashley",
-    t: "0:02",
-    text: "Everything's in spreadsheets right now and it's getting unmanageable.",
-  },
-  {
-    who: "Sam",
-    t: "0:11",
-    text: "We can have you live well before Monday. How many seats?",
-  },
-  {
-    who: "Ashley",
-    t: "0:24",
-    text: "Six, on the Pro plan. I'll be the one signing off.",
-  },
-];
-
-function useCycle(max: number, ms: number, pause = false) {
-  const [i, setI] = useState(0);
-  useEffect(() => {
-    if (pause || max <= 1) return;
-    const id = window.setInterval(() => setI((v) => (v + 1) % max), ms);
-    return () => window.clearInterval(id);
-  }, [max, ms, pause]);
-  return i;
-}
-
-function useReveal(count: number, stepMs: number, loopMs = 9000) {
-  const [n, setN] = useState(0);
-  useEffect(() => {
-    let step = 0;
-    let timer: number;
-    const tick = () => {
-      step += 1;
-      if (step > count) {
-        timer = window.setTimeout(() => {
-          step = 0;
-          setN(0);
-          timer = window.setTimeout(tick, stepMs);
-        }, loopMs - count * stepMs);
-        return;
+// Rebuild chatSteps with JSX content (can't live in a .ts data file)
+const chatSteps = chatStepsData.map((step) =>
+  step.kind === "bot"
+    ? {
+        ...step,
+        text: (
+          <>
+            <span className="font-medium text-[#0a0a0a]">GreenLeaf</span> (verbal yes, no
+            quote out) and{" "}
+            <span className="font-medium text-[#0a0a0a]">Ramp</span> (stalled in Legal 5d).
+          </>
+        ),
       }
-      setN(step);
-      timer = window.setTimeout(tick, stepMs);
-    };
-    timer = window.setTimeout(tick, 400);
-    return () => window.clearTimeout(timer);
-  }, [count, stepMs, loopMs]);
-  return n;
-}
+    : step,
+);
 
 /** Attio-parity pipeline radar — rings + bobbing signal chips */
 function PipelineRadar() {
@@ -244,11 +166,23 @@ export function HeroCollage() {
   const [activeNode, setActiveNode] = useState(0);
   const [triggerPulse, setTriggerPulse] = useState(false);
   const [meetingTab, setMeetingTab] = useState(1);
+  const [ask, setAsk] = useState("");
+  const [transcriptPlaying, setTranscriptPlaying] = useState(false);
+  const [transcriptProgress, setTranscriptProgress] = useState(34);
   const idleNode = useCycle(workflowNodes.length, 2800);
 
   useEffect(() => {
     setActiveNode(idleNode);
   }, [idleNode]);
+
+  useEffect(() => {
+    if (!transcriptPlaying) return;
+    const id = window.setInterval(
+      () => setTranscriptProgress((p) => (p >= 100 ? 0 : p + 1)),
+      300,
+    );
+    return () => window.clearInterval(id);
+  }, [transcriptPlaying]);
 
   return (
     <div className="relative mx-auto mt-16 max-w-[1100px]">
@@ -322,6 +256,15 @@ export function HeroCollage() {
                             <AgentBadge>Sent by Agent · {m.t}</AgentBadge>
                           </div>
                           <p className="mt-1 text-[13px] leading-snug text-[#404040]">{m.text}</p>
+                          <div className="mt-1.5 flex items-center gap-1.5 text-[10.5px] text-[#a3a3a3]">
+                            <span className="flex h-3.5 w-3.5 items-center justify-center rounded-full bg-[#ecfeff] text-[7px] leading-none text-[#0891b2] ring-1 ring-[#a5f3fc]/60">
+                              ▶
+                            </span>
+                            <span className="rounded-md bg-[#f4f4f5] px-1 py-px font-medium text-[#737373] ring-1 ring-[#e5e5e5]">
+                              auto
+                            </span>
+                            <span>Opus 4.8 · 1M context</span>
+                          </div>
                         </div>
                       </motion.div>
                     ),
@@ -334,6 +277,53 @@ export function HeroCollage() {
                     <span className="typing-dot" />
                   </div>
                 )}
+                <form
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    setAsk("");
+                  }}
+                  className="flex items-center gap-2 rounded-xl bg-white px-3 py-2 ring-1 ring-[#e5e5e5] transition-shadow focus-within:ring-2 focus-within:ring-[#22d3ee]/50"
+                >
+                  <svg
+                    viewBox="0 0 16 16"
+                    className="h-3.5 w-3.5 shrink-0 text-[#0891b2]"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="1.5"
+                    aria-hidden
+                  >
+                    <path
+                      d="M8 1.5l1.8 4.7 4.7 1.8-4.7 1.8L8 14.5 6.2 9.8 1.5 8l4.7-1.8L8 1.5z"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                  <input
+                    value={ask}
+                    onChange={(e) => setAsk(e.target.value)}
+                    placeholder="Ask something..."
+                    className="min-w-0 flex-1 bg-transparent text-[12.5px] text-[#0a0a0a] outline-none placeholder:text-[#a3a3a3]"
+                  />
+                  <button
+                    type="submit"
+                    aria-label="Send"
+                    className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-lg transition-all ${
+                      ask.trim()
+                        ? "bg-[#0a0a0a] text-white shadow-sm"
+                        : "bg-[#f4f4f5] text-[#a3a3a3]"
+                    }`}
+                  >
+                    <svg
+                      viewBox="0 0 16 16"
+                      className="h-3 w-3"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      aria-hidden
+                    >
+                      <path d="M3 8h9M9 4.5L12.5 8 9 11.5" strokeLinecap="round" strokeLinejoin="round" />
+                    </svg>
+                  </button>
+                </form>
               </div>
             </WindowChrome>
           </motion.div>
@@ -644,6 +634,109 @@ export function HeroCollage() {
               </div>
 
               <div className="space-y-2.5 px-1 pb-1">
+                <div className="rounded-xl bg-[#fafafa] p-2.5 ring-1 ring-[#ececec]">
+                  <div className="flex items-center gap-2">
+                    <button
+                      type="button"
+                      onClick={() => setTranscriptPlaying((v) => !v)}
+                      aria-label={transcriptPlaying ? "Pause transcript" : "Play transcript"}
+                      className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-[#0a0a0a] text-white shadow-sm transition-transform hover:scale-105 active:scale-95"
+                    >
+                      {transcriptPlaying ? (
+                        <svg viewBox="0 0 16 16" className="h-3 w-3" fill="currentColor" aria-hidden>
+                          <rect x="3.5" y="3" width="3" height="10" rx="1" />
+                          <rect x="9.5" y="3" width="3" height="10" rx="1" />
+                        </svg>
+                      ) : (
+                        <svg viewBox="0 0 16 16" className="ml-0.5 h-3 w-3" fill="currentColor" aria-hidden>
+                          <path d="M4.5 3.3c0-.9.97-1.44 1.73-.97l7.1 4.4a1.15 1.15 0 010 1.94l-7.1 4.4a1.15 1.15 0 01-1.73-.97V3.3z" />
+                        </svg>
+                      )}
+                    </button>
+                    <div className="flex min-w-0 flex-1 items-center gap-2">
+                      <div
+                        role="slider"
+                        aria-label="Transcript progress"
+                        aria-valuenow={Math.round(transcriptProgress)}
+                        aria-valuemin={0}
+                        aria-valuemax={100}
+                        tabIndex={0}
+                        onClick={(e) => {
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const ratio = (e.clientX - rect.left) / rect.width;
+                          setTranscriptProgress(
+                            Math.min(100, Math.max(0, Math.round(ratio * 100))),
+                          );
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "ArrowRight")
+                            setTranscriptProgress((p) => Math.min(100, p + 5));
+                          if (e.key === "ArrowLeft")
+                            setTranscriptProgress((p) => Math.max(0, p - 5));
+                        }}
+                        className="group relative h-1 flex-1 cursor-pointer rounded-full bg-[#e5e5e5] outline-none"
+                      >
+                        <motion.div
+                          className="absolute inset-y-0 left-0 rounded-full bg-[#22d3ee]"
+                          animate={{ width: `${transcriptProgress}%` }}
+                          transition={{ duration: 0.2, ease: "linear" }}
+                        />
+                        <motion.span
+                          className="absolute top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full bg-[#0891b2] opacity-0 shadow-sm ring-2 ring-white transition-opacity group-hover:opacity-100"
+                          animate={{ left: `calc(${transcriptProgress}% - 5px)` }}
+                          transition={{ duration: 0.2, ease: "linear" }}
+                        />
+                      </div>
+                      <span className="shrink-0 font-mono text-[10.5px] tabular-nums text-[#a3a3a3]">
+                        0:02 / 0:34
+                      </span>
+                    </div>
+                  </div>
+                  <div className="mt-2 flex items-center justify-between">
+                    <div className="flex items-center gap-1.5">
+                      {[
+                        { initials: "A", tone: "blue" as const, label: "Ashley · Buyer" },
+                        { initials: "S", tone: "emerald" as const, label: "Sam · AE" },
+                      ].map((s) => (
+                        <span
+                          key={s.label}
+                          title={s.label}
+                          className="inline-flex items-center gap-1 rounded-full bg-white py-0.5 pl-0.5 pr-2 ring-1 ring-[#e5e5e5]"
+                        >
+                          <Avatar initials={s.initials} tone={s.tone} size="sm" />
+                          <span className="text-[10.5px] font-medium text-[#525252]">
+                            {s.label}
+                          </span>
+                        </span>
+                      ))}
+                    </div>
+                    <span className="flex items-end gap-[2.5px]" aria-hidden>
+                      {[0, 1, 2].map((i) => (
+                        <motion.span
+                          key={i}
+                          className={`w-[3px] rounded-full ${
+                            transcriptPlaying ? "bg-[#0891b2]" : "bg-[#d4d4d4]"
+                          }`}
+                          animate={
+                            transcriptPlaying
+                              ? { height: ["4px", "11px", "4px"] }
+                              : { height: "4px" }
+                          }
+                          transition={
+                            transcriptPlaying
+                              ? {
+                                  duration: 0.9,
+                                  repeat: Infinity,
+                                  ease: "easeInOut",
+                                  delay: i * 0.15,
+                                }
+                              : { duration: 0.2 }
+                          }
+                        />
+                      ))}
+                    </span>
+                  </div>
+                </div>
                 <AnimatePresence mode="popLayout">
                   {transcript.slice(0, lineN).map((row) => (
                     <motion.div

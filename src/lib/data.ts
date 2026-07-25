@@ -4,6 +4,10 @@ import type {
   CustomerStory,
   ScaleItem,
   TabContent,
+  ChatStep,
+  TerminalLine,
+  WorkflowNode,
+  TranscriptRow,
 } from "./types";
 
 export const tabs: TabContent[] = [
@@ -215,6 +219,7 @@ export const customerStories: CustomerStory[] = [
       "83% faster lead triage. How Granola turns product signals into revenue at scale.",
     metric: "83% faster",
     logo: "Granola",
+    link: "/customers/granola",
     quote:
       "Agents dig through product signals overnight. We walk in to a ranked queue, not a Slack archaeology dig.",
     body: "Granola's GTM team connected product telemetry and inbox in a week. Agents enrich every inbound, draft first touches, and escalate only when a human should decide. Triage time dropped from hours to minutes — without losing the audit trail leadership needed.",
@@ -226,6 +231,7 @@ export const customerStories: CustomerStory[] = [
       "One source of truth for every deal. Railway runs GTM without the spreadsheet tax.",
     metric: "4× pipeline",
     logo: "Railway",
+    link: "/customers/railway",
     quote:
       "Forecast used to be a Friday scramble. Now the number is already mapped when we open the room.",
     body: "Railway collapsed three CRMs and a nest of sheets into Agent CRM. Agents keep stakeholders current between demos; RevOps trusts the same objects engineering already instruments.",
@@ -237,6 +243,7 @@ export const customerStories: CustomerStory[] = [
       "Agents that never sleep. Modal keeps enterprise deals moving between demos.",
     metric: "2.1× win rate",
     logo: "Modal",
+    link: "/customers/modal",
     quote:
       "The system briefs the AE before the buyer does. That alone paid for the seat.",
     body: "Modal's enterprise motion runs across time zones. Overnight agents flag legal blockers, draft security packs, and nudge stalled threads — so AEs start the day already mid-conversation.",
@@ -248,6 +255,7 @@ export const customerStories: CustomerStory[] = [
       "From first touch to expand. Taskrabbit built a living system of record.",
     metric: "30k+ seats",
     logo: "Taskrabbit",
+    link: "/customers/taskrabbit",
     quote:
       "Retain and expand stopped being a quarterly surprise. Health scores surface weeks early.",
     body: "Taskrabbit uses agent health scoring across the book. Watch and at-risk accounts get sequenced before churn, while expansion signals route to AEs with a draft already attached.",
@@ -302,5 +310,67 @@ export const footerColumns = [
   {
     title: "Resources",
     links: ["Help center", "Academy", "Templates", "Security", "Status"],
+  },
+];
+
+export const chatSteps: ChatStep[] = [
+  {
+    kind: "user" as const,
+    who: "Marcus",
+    initials: "M",
+    tone: "blue" as const,
+    t: "10:24",
+    text: "@AgentCRM what deals should I focus on today?",
+  },
+  {
+    kind: "bot" as const,
+    t: "10:24",
+    // NOTE: text contains JSX, so this entry is reconstructed in HeroCollage.tsx
+    text: "",
+  },
+];
+
+export const terminalLines: TerminalLine[] = [
+  { kind: "cmd", text: "Find yesterday's demo call and create the right follow-up task." },
+  { kind: "meta", text: "Ran 3 commands" },
+  { kind: "tool", text: "· search-call-recordings-by-metadata" },
+  { kind: "tool", text: "· get-call-recording" },
+  { kind: "tool", text: "· create-task" },
+  {
+    kind: "result",
+    text: "Pulled transcript · flagged pricing objection · queued AE follow-up for GreenLeaf.",
+  },
+];
+
+export const workflowNodes: WorkflowNode[] = [
+  {
+    id: "ent",
+    title: "Add to Enterprise target list",
+    body: "Route lead to Enterprise and draft outreach for AE.",
+    status: "ok" as const,
+  },
+  {
+    id: "smb",
+    title: "Add to SMB target list",
+    body: "Route lead to SMB and draft a lighter first touch.",
+    status: "ready" as const,
+  },
+];
+
+export const transcript: TranscriptRow[] = [
+  {
+    who: "Ashley",
+    t: "0:02",
+    text: "Everything's in spreadsheets right now and it's getting unmanageable.",
+  },
+  {
+    who: "Sam",
+    t: "0:11",
+    text: "We can have you live well before Monday. How many seats?",
+  },
+  {
+    who: "Ashley",
+    t: "0:24",
+    text: "Six, on the Pro plan. I'll be the one signing off.",
   },
 ];

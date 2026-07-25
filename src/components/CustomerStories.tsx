@@ -61,11 +61,11 @@ export function CustomerStories() {
 
         <motion.a
           key={story.name}
-          href="#"
+          href={story.link ?? "#"}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.35 }}
-          className="group grid overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white shadow-[var(--shadow-soft)] md:grid-cols-[1.15fr_0.85fr]"
+          className="group grid overflow-hidden rounded-[18px] border border-[#e5e5e5] bg-white shadow-[var(--shadow-soft)] transition-shadow duration-300 hover:shadow-[0_16px_48px_rgba(0,0,0,0.10)] md:grid-cols-[1.15fr_0.85fr]"
         >
           <div className="p-8 md:p-10">
             <div className="flex flex-wrap items-center gap-2">
@@ -87,11 +87,32 @@ export function CustomerStories() {
                 {story.body}
               </p>
             )}
-            <div className="mt-6 flex items-center gap-3">
-              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0a0a0a] text-[12px] font-semibold text-white">
-                {(story.logo ?? story.name).slice(0, 2)}
+            <div className="mt-6 flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-[#0a0a0a] text-[12px] font-semibold text-white">
+                  {(story.logo ?? story.name).slice(0, 2)}
+                </div>
+                <div className="text-[15px] font-semibold">{story.name}</div>
               </div>
-              <div className="text-[15px] font-semibold">{story.name}</div>
+              <span className="inline-flex items-center gap-1.5 text-[13px] font-medium text-[#525252] transition-colors group-hover:text-[#0a0a0a]">
+                Read the {story.name} customer story
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  aria-hidden
+                  className="transition-transform duration-200 group-hover:translate-x-0.5"
+                >
+                  <path
+                    d="M5 12h14m0 0l-6-6m6 6l-6 6"
+                    stroke="currentColor"
+                    strokeWidth="1.8"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </span>
             </div>
           </div>
           <div className="relative flex min-h-[220px] flex-col justify-between bg-gradient-to-br from-[#f4f4f5] via-white to-[#ecfeff] p-8 md:min-h-full">

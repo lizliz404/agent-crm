@@ -8,6 +8,7 @@ import {
   useReducedMotion,
 } from "framer-motion";
 import { LogoMark } from "@/components/ui";
+import { AskBar } from "@/components/AskBar";
 
 const NAV_LINKS = [
   { label: "Platform", href: "#platform" },
