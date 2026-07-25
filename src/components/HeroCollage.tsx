@@ -188,24 +188,8 @@ export function HeroCollage() {
     <div className="relative mx-auto mt-16 max-w-[1100px]">
       <div className="pointer-events-none absolute inset-0 -z-10 rounded-[28px] bg-[radial-gradient(ellipse_at_center,rgba(244,244,245,0.9),transparent_70%)]" />
 
-      {/* Floating radar — 5th overlapping window for Attio-density theater */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.92, y: 20 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        transition={{ duration: 0.8, delay: 0.55, ease }}
-        className="absolute -left-2 top-[42%] z-20 hidden w-[200px] lg:block xl:-left-6 xl:w-[220px]"
-      >
-        <div className="surface-window interactive-window rotate-[-3deg] p-3">
-          <div className="mb-1.5 flex items-center justify-between px-0.5">
-            <span className="text-[11px] font-medium text-[#737373]">Signal radar</span>
-            <AgentBadge className="!px-1.5 !py-0.5 !text-[10px]">Agent scan</AgentBadge>
-          </div>
-          <PipelineRadar />
-        </div>
-      </motion.div>
-
       <div className="grid items-start gap-4 lg:grid-cols-[0.9fr_1.35fr_0.95fr]">
-        {/* Left column */}
+        {/* Left column — chat + terminal */}
         <div className="flex flex-col gap-4">
           <motion.div
             initial={{ opacity: 0, y: 24, rotate: -1 }}
@@ -778,14 +762,14 @@ export function HeroCollage() {
         </motion.div>
       </div>
 
-      {/* Mobile / tablet radar — below collage when absolute float is hidden */}
+      {/* Signal radar — full-width row below the three-column collage */}
       <motion.div
-        initial={{ opacity: 0, y: 16 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6, delay: 0.5, ease }}
-        className="mt-4 lg:hidden"
+        transition={{ duration: 0.7, delay: 0.55, ease }}
+        className="mt-6 flex justify-center"
       >
-        <div className="surface-window mx-auto max-w-sm p-4">
+        <div className="surface-window interactive-window w-full max-w-[320px] p-4">
           <div className="mb-2 flex items-center justify-between">
             <span className="text-[12px] font-medium text-[#737373]">Signal radar</span>
             <AgentBadge>Agent scan</AgentBadge>
