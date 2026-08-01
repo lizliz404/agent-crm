@@ -8,6 +8,19 @@ anti_reference: generic "AI SaaS 2026 default skin" — see §0 changelog
 repo: lizliz404/agent-crm · site: https://agent-crm.lizliz.xyz
 ---
 
+> **DESIGN.md quality audit** · 2026-08-02 · gold: beautiful-html-templates/soft-editorial
+> - **Genre:** B brand/distribution brief（landing + mark + OG）
+> - **Grade A (UI system):** 4/10 — 有 hex token 与组件关键词，但无 gold YAML 机器规格；§5 大量 “Unchanged” 不可独立实现
+> - **Grade B (brand brief):** 8/10 — 身份/人格/Dock Mark/agent cyan 规则/Never Sleeps/微信卡强；但 §9–10 generation prompt 仍写 V2 diamond，与 V3 Dock Mark 冲突
+> - **Strengths:**
+>   - V2→V3 changelog 可追溯；Dock Mark 构造可画
+>   - `--color-agent` / `--color-agent-bright` 使用边界清晰
+>   - Anti-references + 通用 AI SaaS 嗅探自检
+>   - Favicon/OG/微信 brief + checklist
+> - **Gaps vs gold pattern:** 无 frontmatter machine tokens（role typography / spacing / canvas / components.description）；无 Signature Treatments 非可选命名；Layout/Depth 散文不足；CJK 仅 audience 层；prompt 与 mark 正文不一致属 critical brief bug
+> - **Verdict:** keep-as-is（品牌用途）并先修 prompt · 完整 UI 实现则 upgrade 或 split
+> - **Next action:** 重写 §9–10 generation prompt 为 Dock Mark + agent-bright chip（删除 diamond-in-diamond 残留）；再决定是否拆 visual-system 文档
+
 # Agent CRM — Design Brief (V3)
 
 > Single source of truth for brand/visual identity. Downstream image AI uses
