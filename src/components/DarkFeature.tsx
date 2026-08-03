@@ -42,7 +42,11 @@ const agentPanel = [
 
 export function DarkFeature() {
   return (
-    <section className="relative overflow-hidden bg-[#0a0a0a] py-24 text-[#fafafa] md:py-28">
+    <section
+      id="agents"
+      data-chapter="Agents"
+      className="relative overflow-hidden bg-[#0a0a0a] py-24 text-[#fafafa] md:py-28"
+    >
       <div className="pointer-events-none absolute inset-0 dot-grid-dark opacity-60" />
       <div className="pointer-events-none absolute -right-24 top-1/4 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(8,145,178,0.18),transparent_70%)]" />
       <div className="container-page relative">

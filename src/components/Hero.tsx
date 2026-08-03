@@ -15,7 +15,11 @@ export function Hero() {
   const onNightChange = useCallback((night: boolean) => setIsNight(night), []);
 
   return (
-    <section id="hero" className="relative overflow-hidden pb-10 pt-20 md:pt-24">
+    <section
+      id="hero"
+      data-chapter="Hero"
+      className="relative overflow-hidden pb-10 pt-20 md:pt-24"
+    >
       <div
         className="pointer-events-none absolute inset-x-0 top-0 -z-10 h-[520px] transition-[background] duration-700 ease-out"
         style={{

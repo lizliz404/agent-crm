@@ -20,7 +20,11 @@ const integrations = [
 
 export function Connectivity() {
   return (
-    <section className="border-t border-[#ececec] bg-white/50 py-24 md:py-28">
+    <section
+      id="connectivity"
+      data-chapter="Connectivity"
+      className="border-t border-[#ececec] bg-white/50 py-24 md:py-28"
+    >
       <div className="container-page">
         <motion.div
           {...sectionInView}

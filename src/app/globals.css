@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "../styles/premium-one-pager.css";
 
 @theme {
   --font-display: var(--font-inter-display), ui-sans-serif, system-ui, sans-serif;
@@ -50,7 +51,15 @@
   }
 
   ::selection {
-    background: #d4d4d4;
+    background: var(--pop-selection-bg);
+    color: var(--pop-selection-fg);
+  }
+
+  .btn-primary:focus-visible,
+  .btn-secondary:focus-visible,
+  .btn-ghost:focus-visible {
+    outline: 2px solid var(--color-agent);
+    outline-offset: 2px;
   }
 }
 
@@ -452,6 +461,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   .live-dot,
   .agent-dot,
   .typing-dot,

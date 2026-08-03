@@ -40,7 +40,11 @@ const signalCards = [
 
 export function Signals() {
   return (
-    <section className="border-t border-[#ececec] py-24 md:py-28">
+    <section
+      id="signals"
+      data-chapter="Signals"
+      className="border-t border-[#ececec] py-24 md:py-28"
+    >
       <div className="container-page">
         <motion.div
           {...sectionInView}

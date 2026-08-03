@@ -12,7 +12,11 @@ export function CustomerStories() {
   const proofLogos = logos.slice(0, 8);
 
   return (
-    <section id="customers" className="border-t border-[#ececec] py-24 md:py-28">
+    <section
+      id="customers"
+      data-chapter="Customers"
+      className="border-t border-[#ececec] py-24 md:py-28"
+    >
       <div className="container-page">
         <motion.div
           {...sectionInView}

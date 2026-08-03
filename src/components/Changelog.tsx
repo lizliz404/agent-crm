@@ -7,7 +7,11 @@ import { AgentBadge } from "@/components/AgentBadge";
 
 export function Changelog() {
   return (
-    <section className="border-t border-[#ececec] py-24 md:py-28">
+    <section
+      id="resources"
+      data-chapter="Changelog"
+      className="border-t border-[#ececec] py-24 md:py-28"
+    >
       <div className="container-page">
         <motion.div
           {...sectionInView}

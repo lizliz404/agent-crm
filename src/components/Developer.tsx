@@ -54,7 +54,11 @@ const metrics = [
 
 export function Developer() {
   return (
-    <section className="border-t border-[#ececec] py-24 md:py-28">
+    <section
+      id="developers"
+      data-chapter="Developers"
+      className="border-t border-[#ececec] py-24 md:py-28"
+    >
       <div className="container-page">
         <motion.div
           {...sectionInView}

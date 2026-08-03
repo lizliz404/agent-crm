@@ -11,10 +11,12 @@ import { CustomerStories } from "@/components/CustomerStories";
 import { Changelog } from "@/components/Changelog";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
+import { PremiumOnePager } from "@/components/PremiumOnePager";
 
 export default function Home() {
   return (
     <main className="min-h-screen overflow-x-hidden">
+      <PremiumOnePager />
       <Navbar />
       <Hero />
       <LogoCloud />

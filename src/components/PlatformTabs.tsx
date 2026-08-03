@@ -11,7 +11,7 @@ export function PlatformTabs() {
   const current = tabs.find((t) => t.id === active) ?? tabs[0];
 
   return (
-    <section id="platform" className="py-24 md:py-28">
+    <section id="platform" data-chapter="Platform" className="py-24 md:py-28">
       <div className="container-page">
         <motion.div {...sectionInView} className="mx-auto mb-14 max-w-[820px] text-center">
           <span className="text-eyebrow">Platform</span>

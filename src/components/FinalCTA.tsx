@@ -9,10 +9,16 @@ const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 export function FinalCTA() {
   const [email, setEmail] = useState("");
   const [touched, setTouched] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
   const [done, setDone] = useState(false);
 
   const valid = EMAIL_RE.test(email.trim());
-  const showError = touched && email.trim().length > 0 && !valid;
+  const empty = email.trim().length === 0;
+  const showError =
+    (submitted && empty) || (touched && !empty && !valid);
+  const errorMessage = empty
+    ? "Enter your work email to subscribe."
+    : "That doesn't look like an email. Check the address and try again.";
 
   useEffect(() => {
     if (!done) return;
@@ -23,14 +29,16 @@ export function FinalCTA() {
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
     setTouched(true);
+    setSubmitted(true);
     if (!valid) return;
     setDone(true);
     setEmail("");
     setTouched(false);
+    setSubmitted(false);
   };
 
   return (
-    <section id="pricing" className="border-t border-[#ececec]">
+    <section id="pricing" data-chapter="Pricing" className="border-t border-[#ececec]">
       {/* CTA block */}
       <div className="py-24 md:py-32">
         <div className="container-page">
@@ -109,6 +117,8 @@ export function FinalCTA() {
                       onChange={(e) => setEmail(e.target.value)}
                       onBlur={() => setTouched(true)}
                       placeholder="Your email address"
+                      aria-invalid={showError}
+                      aria-describedby={showError ? "newsletter-email-error" : undefined}
                       className={`h-11 w-full rounded-[10px] border bg-white px-3.5 text-[14px] outline-none ring-0 transition focus:border-[#0a0a0a] ${
                         showError
                           ? "border-red-400 focus:border-red-500"
@@ -116,8 +126,12 @@ export function FinalCTA() {
                       }`}
                     />
                     {showError && (
-                      <p className="mt-1.5 text-left text-[12px] text-red-500">
-                        Please enter a valid email address.
+                      <p
+                        id="newsletter-email-error"
+                        role="alert"
+                        className="mt-1.5 text-left text-[12px] text-red-500"
+                      >
+                        {errorMessage}
                       </p>
                     )}
                   </div>
