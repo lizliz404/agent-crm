@@ -22,9 +22,8 @@ const sourceSerif = Source_Serif_4({
 });
 
 const siteUrl = "https://agent-crm.lizliz.xyz";
-const title = "Agent CRM — The CRM for agentic revenue";
-const description =
-  "The agentic CRM that builds pipeline, advances deals, and grows accounts around the clock.";
+const title = "Agent CRM — CRM that runs deals while you sleep";
+const description = "Agents build pipeline, move deals, and grow accounts around the clock.";
 
 const jsonLd = {
   "@context": "https://schema.org",
