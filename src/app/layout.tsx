@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Inter_Tight, Source_Serif_4 } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 
 const inter = Inter({
@@ -23,7 +24,9 @@ const sourceSerif = Source_Serif_4({
 
 const siteUrl = "https://agent-crm.lizliz.xyz";
 const title = "Agent CRM — CRM that runs deals while you sleep";
-const description = "Agents build pipeline, move deals, and grow accounts around the clock.";
+// Pain-first; keep 120–160 chars for SERP snippets.
+const description =
+  "Leads stall overnight and renewals slip while your CRM sits idle. Agent CRM runs pipeline, deals, and accounts around the clock with revenue agents.";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -42,8 +45,7 @@ const jsonLd = {
       name: "Agent CRM",
       url: siteUrl,
       description,
-      inLanguage: ["en", "zh-CN"],
-      availableLanguage: ["en", "zh-CN"],
+      inLanguage: "en",
       publisher: { "@id": `${siteUrl}/#organization` },
     },
     {
@@ -54,8 +56,7 @@ const jsonLd = {
       operatingSystem: "Web",
       url: siteUrl,
       description,
-      inLanguage: ["en", "zh-CN"],
-      availableLanguage: ["en", "zh-CN"],
+      inLanguage: "en",
       offers: {
         "@type": "Offer",
         price: "0",
@@ -74,6 +75,7 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: "Agent CRM",
+  themeColor: "#fafafa",
   keywords: [
     "CRM",
     "agentic CRM",
@@ -103,8 +105,6 @@ export const metadata: Metadata = {
     url: siteUrl,
     siteName: "Agent CRM",
     locale: "en_US",
-    // Valid Next.js Metadata field → og:locale:alternate
-    alternateLocale: ["zh_CN"],
     type: "website",
     images: [
       {
@@ -145,6 +145,17 @@ export default function RootLayout({
       className={`${inter.variable} ${interDisplay.variable} ${sourceSerif.variable}`}
     >
       <body className="antialiased">
+        {/* GA4: shared property with lizliz.xyz (G-TXVLTJJ878); filter by hostname in GA */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-TXVLTJJ878"
+          strategy="afterInteractive"
+        />
+        <Script id="ga4-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-TXVLTJJ878');`}
+        </Script>
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
