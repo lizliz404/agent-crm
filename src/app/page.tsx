@@ -9,6 +9,7 @@ import { Developer } from "@/components/Developer";
 import { BuildToScale } from "@/components/BuildToScale";
 import { CustomerStories } from "@/components/CustomerStories";
 import { Changelog } from "@/components/Changelog";
+import { Faq } from "@/components/Faq";
 import { FinalCTA } from "@/components/FinalCTA";
 import { Footer } from "@/components/Footer";
 import { PremiumOnePager } from "@/components/PremiumOnePager";
@@ -28,6 +29,7 @@ export default function Home() {
       <BuildToScale />
       <CustomerStories />
       <Changelog />
+      <Faq />
       <FinalCTA />
       <Footer />
     </main>

@@ -34,7 +34,16 @@ export function Footer() {
           ))}
         </div>
         <div className="mt-12 flex flex-col gap-2 border-t border-[#ececec] pt-6 text-[12.5px] text-[#a3a3a3] sm:flex-row sm:items-center sm:justify-between">
-          <span>© {new Date().getFullYear()} Agent CRM. Design study inspired by Attio.</span>
+          <span>
+            © {new Date().getFullYear()} Agent CRM. Design study by{" "}
+            <a
+              href="https://lizliz.xyz/"
+              className="underline decoration-[#d4d4d4] underline-offset-2 hover:text-[#525252]"
+            >
+              Liz
+            </a>
+            , inspired by Attio.
+          </span>
           <div className="flex gap-4">
             <a href="#" className="hover:text-[#525252]">
               Privacy

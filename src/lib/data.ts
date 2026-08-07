@@ -374,3 +374,23 @@ export const transcript: TranscriptRow[] = [
     text: "Six, on the Pro plan. I'll be the one signing off.",
   },
 ];
+
+/** Visible FAQ + matching FAQPage JSON-LD (keep answers factual to on-page copy). */
+export const faqItems: { q: string; a: string }[] = [
+  {
+    q: "What is Agent CRM?",
+    a: "Agent CRM is an agentic CRM: revenue agents build pipeline, advance deals, and grow accounts around the clock so the CRM does not sit idle overnight.",
+  },
+  {
+    q: "How is Agent CRM different from a traditional CRM?",
+    a: "Traditional CRMs wait for humans. Agent CRM runs sales motions with agents that prospect, enrich leads, brief meetings, and keep deals moving between working hours.",
+  },
+  {
+    q: "What tools does Agent CRM connect to?",
+    a: "The landing shows connectivity with Claude, Slack, Clay, Linear, Notion, Gmail, Granola, Stripe, Zapier, plus imports from Salesforce, HubSpot, and Pipedrive.",
+  },
+  {
+    q: "Who makes Agent CRM?",
+    a: "This site is a design study by Liz (lizliz.xyz), inspired by Attio. It is a public marketing/layout replica, not a separately verified multi-tenant SaaS.",
+  },
+];

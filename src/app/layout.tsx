@@ -1,6 +1,7 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Inter_Tight, Source_Serif_4 } from "next/font/google";
 import Script from "next/script";
+import { faqItems } from "@/lib/data";
 import "./globals.css";
 
 const inter = Inter({
@@ -38,6 +39,7 @@ const jsonLd = {
       url: siteUrl,
       logo: `${siteUrl}/icon-512.png`,
       description,
+      sameAs: ["https://lizliz.xyz/"],
     },
     {
       "@type": "WebSite",
@@ -57,12 +59,20 @@ const jsonLd = {
       url: siteUrl,
       description,
       inLanguage: "en",
-      offers: {
-        "@type": "Offer",
-        price: "0",
-        priceCurrency: "USD",
-      },
+      // No Offer: design-study landing; omit rather than invent price:0.
       publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/#faq`,
+      mainEntity: faqItems.map((item) => ({
+        "@type": "Question",
+        name: item.q,
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: item.a,
+        },
+      })),
     },
   ],
 };
@@ -75,7 +85,6 @@ export const metadata: Metadata = {
   },
   description,
   applicationName: "Agent CRM",
-  themeColor: "#fafafa",
   keywords: [
     "CRM",
     "agentic CRM",
@@ -132,6 +141,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+};
+
+// Next.js emits theme-color from the viewport export only (metadata.themeColor is ignored).
+export const viewport: Viewport = {
+  themeColor: "#fafafa",
 };
 
 export default function RootLayout({

@@ -1,0 +1,20 @@
+# Agent CRM
+
+> Agentic CRM landing: revenue agents that build pipeline, advance deals, and grow accounts around the clock so the CRM does not sit idle overnight.
+
+- Site: https://agent-crm.lizliz.xyz/
+- Maker: Liz (https://lizliz.xyz/)
+- Category: BusinessApplication / agentic CRM (design study inspired by Attio)
+- Stack shown: Next.js static marketing shell; SDK / API / MCP called out on-page
+- Integrations shown: Claude, Slack, Clay, Linear, Notion, Gmail, Granola, Stripe, Zapier; imports from Salesforce, HubSpot, Pipedrive
+
+## What it is not
+
+- Not a verified multi-tenant production CRM with published pricing
+- Not a Chinese-localized product (English-only; no hreflang)
+- Not an Attio affiliate or official Attio property — design study attribution only
+
+## Key pages
+
+- Home: https://agent-crm.lizliz.xyz/
+- FAQ: https://agent-crm.lizliz.xyz/#faq

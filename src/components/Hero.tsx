@@ -61,7 +61,7 @@ export function Hero() {
               transition={fadeInTransition}
               className="text-hero mb-5"
             >
-              Welcome to agentic revenue.
+              Welcome to Agent CRM.
             </motion.h1>
 
             <motion.p
